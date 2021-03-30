@@ -52,7 +52,7 @@ export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
         handicapped_acces: {
             type: DataTypes.BOOLEAN
         },
-        status: {asdasad
+        status: {
             type: DataTypes.BOOLEAN
         }
     }, {
