@@ -32,7 +32,8 @@ export default function(sequelize:Sequelize): ModelCtor<AnimalInstance>{
         },
         species:{
             type:DataTypes.STRING
-        },name:{
+        },
+        name:{
             type:DataTypes.STRING
         },
         family:{

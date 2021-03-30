@@ -3,7 +3,6 @@ import {DataTypes, Model, ModelCtor, Optional, Sequelize} from "sequelize";
 export interface VisitProps {
     id: number;
     name: string;
-
 }
 
 export  interface VisitCreationProps extends Optional<VisitProps, "id"> {}

@@ -5,7 +5,6 @@ export interface VisitProps {
     name: string;
     password: string;
     is_handicapped: boolean;
-
 }
 
 export  interface UserCreationProps extends Optional<VisitProps, "id"> {}

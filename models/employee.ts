@@ -13,7 +13,6 @@ export interface EmployeeProps{
     pseudo:string;
     password:string;
     type:string;
-    id_type:number;
 }
 
 export interface EmployeeCreationProps extends Optional<EmployeeProps, "id"> {}
@@ -37,9 +36,6 @@ export default function(sequelize:Sequelize):ModelCtor<EmployeeInstance>{
         },
         type:{
             type:DataTypes.STRING
-        },
-        id_type:{
-            type:DataTypes.BIGINT
         }
     },{
         freezeTableName: true,

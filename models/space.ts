@@ -14,7 +14,7 @@ export interface SpaceProps {
     capacity:number;
     duration:number;
     hour_open:string;
-    handicapped_acces:boolean;
+    handicapped_access:boolean;
     status:boolean;
 }
 
@@ -49,7 +49,7 @@ export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
         hour_open: {
             type: DataTypes.STRING
         },
-        handicapped_acces: {
+        handicapped_access: {
             type: DataTypes.BOOLEAN
         },
         status: {

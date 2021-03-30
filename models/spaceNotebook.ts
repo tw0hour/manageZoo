@@ -5,7 +5,6 @@ export interface SpaceNotebookProps {
     id: number;
     bestMonth: string;
     timestamp: string;
-
 }
 
 export  interface SpaceNotebookCreationProps extends Optional<SpaceNotebookProps, "id"> {}
