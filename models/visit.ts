@@ -1,4 +1,14 @@
-import {DataTypes, Model, ModelCtor, Optional, Sequelize} from "sequelize";
+import {
+    DataTypes,
+    HasOneGetAssociationMixin,
+    HasOneSetAssociationMixin,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
+} from "sequelize";
+import {UserInstance} from "./user";
+import {SpaceInstance} from "./space";
 
 export interface VisitProps {
     id: number;
@@ -8,6 +18,11 @@ export interface VisitProps {
 export  interface VisitCreationProps extends Optional<VisitProps, "id"> {}
 
 export interface VisitInstance extends Model<VisitProps, VisitCreationProps>, VisitProps {
+    getUser: HasOneGetAssociationMixin<UserInstance>;
+    setUser: HasOneSetAssociationMixin<UserInstance, "id">;
+
+    getSpace: HasOneGetAssociationMixin<SpaceInstance>;
+    setSpace: HasOneSetAssociationMixin<SpaceInstance, "id">;
 
 }
 

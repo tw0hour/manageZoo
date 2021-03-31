@@ -3,8 +3,9 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor, HasManyGetAssociationsMixin, HasManySetAssociationsMixin
 } from "sequelize";
+import {UserInstance} from "./user";
 
 export interface PassProps {
     id: number;
@@ -15,6 +16,8 @@ export interface PassProps {
 export interface PassCreationProps extends Optional<PassProps, "id"> {}
 
 export interface PassInstance extends Model<PassProps,PassCreationProps>, PassProps {
+    getUser: HasManyGetAssociationsMixin<UserInstance>;
+    setUser: HasManySetAssociationsMixin<UserInstance, "id">;
 
 }
 
