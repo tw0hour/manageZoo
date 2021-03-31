@@ -1,4 +1,13 @@
-import {DataTypes, Model, ModelCtor, Optional, Sequelize} from "sequelize";
+import {
+    DataTypes,
+    HasManyGetAssociationsMixin,
+    HasManySetAssociationsMixin,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
+} from "sequelize";
+import {EmployeeInstance} from "./employee";
 
 export interface TypeProps {
     id: number;
@@ -8,7 +17,8 @@ export interface TypeProps {
 export  interface TypeCreationProps extends Optional<TypeProps, "id"> {}
 
 export interface TypeInstance extends Model<TypeProps, TypeCreationProps>, TypeProps {
-
+    getEmployee: HasManyGetAssociationsMixin<EmployeeInstance>;
+    setEmployee: HasManySetAssociationsMixin<EmployeeInstance, "id">;
 }
 
 export default function (sequelize: Sequelize): ModelCtor<TypeInstance> {

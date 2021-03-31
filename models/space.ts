@@ -3,8 +3,14 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor,
+    HasManyGetAssociationsMixin,
+    HasManyAddAssociationMixin,
+    HasOneGetAssociationMixin,
+    HasOneSetAssociationMixin, HasManySetAssociationsMixin
 } from "sequelize";
+import {SpaceNotebookInstance} from "./spaceNotebook";
+import {AnimalInstance} from "./animal";
 
 export interface SpaceProps {
     id: number;
@@ -21,7 +27,11 @@ export interface SpaceProps {
 export interface SpaceCreationProps extends Optional<SpaceProps, "id"> {}
 
 export interface SpaceInstance extends Model<SpaceProps,SpaceCreationProps>, SpaceProps {
+    getSpaceNoteBook: HasManyGetAssociationsMixin<SpaceNotebookInstance>;
+    setSpaceNoteBook: HasManySetAssociationsMixin<SpaceNotebookInstance, "id">;
 
+    getAnimal: HasManyGetAssociationsMixin<AnimalInstance>;
+    setAnimal: HasManySetAssociationsMixin<AnimalInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {

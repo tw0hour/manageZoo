@@ -5,8 +5,13 @@ import {
     DataTypes,
     ModelCtor,
     BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+    HasManyGetAssociationsMixin,
+    HasManyAddAssociationMixin,
+    BelongsToGetAssociationMixin,
+    HasOneGetAssociationMixin,
+    HasOneSetAssociationMixin
 } from "sequelize";
+import {Animal_notebookInstance} from "./animal_notebook";
 
 export interface AnimalProps{
     id:number;
@@ -20,6 +25,8 @@ export interface AnimalProps{
 export interface AnimalCreationProps extends Optional<AnimalProps, "id">{}
 
 export interface AnimalInstance extends Model<AnimalProps,AnimalCreationProps>,AnimalProps{
+    getAnimalNoteBook: HasOneGetAssociationMixin<Animal_notebookInstance>;
+    setAnimalNoteBook: HasOneSetAssociationMixin<Animal_notebookInstance, "id">;
 
 }
 
