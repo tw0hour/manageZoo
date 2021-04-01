@@ -79,43 +79,43 @@ export class SequelizeManager implements SequelizeManagerProps {
 
     private static associate(props: SequelizeManagerProps): void {
 
-        //emplyee / type
-        props.Employee.hasOne(props.Type);
+        //employee / type
+        props.Employee.belongsTo(props.Type);
         props.Type.hasMany(props.Employee);
 
         //employee / space_notebook
         props.Employee.hasMany(props.SpaceNotebook);
-        props.SpaceNotebook.hasOne(props.Employee);
+        props.SpaceNotebook.belongsTo(props.Employee);
 
         //employee / animlal_nodeBook
         props.Employee.hasMany(props.Animal_notebook);
-        props.Animal_notebook.hasOne(props.Employee);
+        props.Animal_notebook.belongsTo(props.Employee);
 
 
         //animal / animal_nodebook
-        props.Animal_notebook.hasOne(props.Animal);
+        props.Animal_notebook.belongsTo(props.Animal);
         props.Animal.hasMany(props.Animal_notebook);
 
 
         //animal / family
-        props.Animal.hasOne(props.Family);
+        props.Animal.belongsTo(props.Family);
         props.Family.hasMany(props.Animal);
 
         //animal / space
-        props.Animal.hasOne(props.Space);
+        props.Animal.belongsTo(props.Space);
         props.Space.hasMany(props.Animal);
 
         //space / visit
         props.Space.hasMany(props.Visit);
-        props.Visit.hasOne(props.Space);
+        props.Visit.belongsTo(props.Space);
 
         //visit / user
         props.User.hasMany(props.Visit);
-        props.Visit.hasOne(props.Visit);
+        props.Visit.belongsTo(props.Visit);
 
         //user / pass
-        props.User.hasOne(props.Pass);
-        props.Pass.hasOne(props.User);
+        props.User.belongsTo(props.Pass);
+        props.Pass.hasMany(props.User);
 
     }
 
