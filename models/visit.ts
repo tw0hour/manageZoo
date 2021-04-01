@@ -23,7 +23,6 @@ export interface VisitInstance extends Model<VisitProps, VisitCreationProps>, Vi
 
     getSpace: HasOneGetAssociationMixin<SpaceInstance>;
     setSpace: HasOneSetAssociationMixin<SpaceInstance, "id">;
-
 }
 
 export default function (sequelize: Sequelize): ModelCtor<VisitInstance> {
