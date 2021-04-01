@@ -50,7 +50,7 @@ export class SequelizeManager implements SequelizeManagerProps {
 
     private static async initialize(): Promise<SequelizeManager> {
         const sequelize = new Sequelize({
-            dialect: process.env.DB_DRIVER as Dialect,
+            dialect: 'mysql',//process.env.DB_DRIVER as Dialect,//'mysql',//
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             username: process.env.DB_USER,
