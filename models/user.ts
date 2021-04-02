@@ -14,7 +14,7 @@ export interface VisitProps {
     id: number;
     name: string;
     password: string;
-    is_handicapped: boolean;
+    is_handicapped?: boolean;
 }
 
 export  interface UserCreationProps extends Optional<VisitProps, "id"> {}
@@ -42,7 +42,7 @@ export default function (sequelize: Sequelize): ModelCtor<UserInstance> {
             type: DataTypes.STRING,
         },
         is_handicapped: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.BOOLEAN// TODO par defaut mettre a "false"
         }
     }, {
         freezeTableName: true,

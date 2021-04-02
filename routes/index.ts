@@ -1,7 +1,8 @@
 import {Express} from "express";
-/*import {authRouter} from "./auth.router";/
+import {animalRoutes} from "./animalRoutes";
+import {userRoutes} from "./userRoutes";
 
 export function buildRoutes(app: Express) {
-    app.use("/auth", authRouter);
+    app.use("/animal", animalRoutes);
+    app.use("/user",userRoutes);
 }
-*/
