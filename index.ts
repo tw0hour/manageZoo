@@ -1,7 +1,7 @@
 import {config} from 'dotenv';
 config(); // import les variables d'env
 import express,{Express} from "express";
-//import {buildRoutes} from "./routes";
+import {buildRoutes} from "./routes";
 import bodyParser from "body-parser";
 import {SequelizeManager} from "./models";
 
@@ -16,8 +16,10 @@ main().then(function (){});
 
 app.use(bodyParser.json());
 
-//buildRoutes(app);
+buildRoutes(app);
+
 const port = process.env.PORT || 3000;
+
 app.listen(port,function (){
     console.log(`Listening on ${port}`);
 });
