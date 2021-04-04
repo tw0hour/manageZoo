@@ -29,3 +29,4 @@ Api en Node JS s'occupant de la gestion d'un zoo
 - Ouverture nocturne du zoo avec PASS Night (par un admin)
 -  Afin d'accéder à l'API il faudra avoir un compte, seul un employé peut faire des actions pour le parc.
 
+type visit animal_notebook
