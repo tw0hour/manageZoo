@@ -1,5 +1,5 @@
 import {ModelCtor} from "sequelize";
-import {TypeInstance} from "../models/type";
+import {TypeCreationProps, TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
 import {symlink} from "fs";
 
@@ -23,4 +23,11 @@ export class TypeController{
     public async getAll():Promise<TypeInstance[] | null>{
         return this.Type.findAll();//null;//
     }
+
+    public async addType(props: TypeCreationProps): Promise<TypeInstance | null> {
+        return this.Type.create({
+            ...props
+        });
+    }
+
 }

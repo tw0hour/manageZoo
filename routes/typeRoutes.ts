@@ -13,7 +13,22 @@ typeRoutes.get("/",async function(req,res){
 });
 
 typeRoutes.post("/addType", async function(req, res) {
-    res.send("post");
+    const name = req.body.name;
+    if(name===undefined){
+        res.status(400).end();
+        return;
+    }
+    const typeController = await TypeController.getInstance();
+    const type = await typeController.addType({
+        name: name
+    });
+    if(type!==null){
+        res.status(201).end();
+        res.json(type);
+    }else {
+        res.status(409).end();
+    }
+    //res.send("post");
 });
 
 typeRoutes.put("/modifyType:id",async function(req,res){
