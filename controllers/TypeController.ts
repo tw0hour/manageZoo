@@ -1,6 +1,7 @@
 import {ModelCtor} from "sequelize";
 import {TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
+import {symlink} from "fs";
 
 export class TypeController{
     Type:ModelCtor<TypeInstance>;
@@ -15,11 +16,11 @@ export class TypeController{
         return TypeController.instance;
     }
 
-    private constructor(User: ModelCtor<TypeInstance>) {
-        this.Type = User;
+    private constructor(Type: ModelCtor<TypeInstance>) {
+        this.Type = Type;
     }
 
-    public async getAll(id?:number):Promise<TypeInstance | null>{
-        return null;
+    public async getAll():Promise<TypeInstance | null>{
+        return null;//this.Type.findAll();
     }
 }
