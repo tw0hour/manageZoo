@@ -20,7 +20,7 @@ export class TypeController{
         this.Type = Type;
     }
 
-    public async getAll():Promise<TypeInstance | null>{
-        return null;//this.Type.findAll();
+    public async getAll():Promise<TypeInstance[] | null>{
+        return this.Type.findAll();//null;//
     }
 }

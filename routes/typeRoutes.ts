@@ -4,10 +4,12 @@ import {TypeController} from "../controllers/TypeController";
 
 const typeRoutes = express();
 
-typeRoutes.get("/Type:id",async function(req,res){
-    const typeList = await TypeController.getAll();
+typeRoutes.get("/",async function(req,res){
+
+    const typeController = await TypeController.getInstance();
+    const typeList = await typeController.getAll();
     res.json(typeList);
-    //res.send("get " + req.params.id);
+    //todo prendre en compte la limit et l'offset
 });
 
 typeRoutes.post("/addType", async function(req, res) {
