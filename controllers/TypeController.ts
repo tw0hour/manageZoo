@@ -1,6 +1,7 @@
 import {ModelCtor} from "sequelize";
 import {TypeCreationProps, TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
+import {promises} from "dns";
 
 export class TypeController{
     Type:ModelCtor<TypeInstance>;
@@ -32,10 +33,45 @@ export class TypeController{
             }});
     }
 
+    public async removeById(id:number):Promise<Boolean>{
+        const type = this.getById(id);
+        //if(type===undefined) return 0;
+        const destroy=this.Type.destroy({
+            where:{
+                id
+            }
+        });
+        //console.log(destroy);
+        //if()
+
+        return false;
+    }
+
     public async addType(props: TypeCreationProps): Promise<TypeInstance | null> {
         return this.Type.create({
             ...props
         });
+    }
+
+    public async update(props:TypeInstance):Promise<TypeInstance | null>{
+        const typeUpdate = await this.getById(props.id);
+
+        if(typeUpdate === null)
+        {
+            return null;
+        }
+        else
+        {
+            return await typeUpdate.update({
+
+                name: props.name
+            }, {
+                where: {
+                    id: props.id
+                }
+            });
+        }
+        return null;
     }
 
 }
