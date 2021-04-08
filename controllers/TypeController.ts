@@ -34,7 +34,7 @@ export class TypeController{
     }
 
     public async removeById(id:string):Promise<Boolean>{
-        const type = this.getById(id);
+        const type = this.getById(parseInt(id));
         //if(type===undefined) return 0;
         const destroy=this.Type.destroy({
             where:{
