@@ -2,6 +2,5 @@
 /.idea
 .env
 generate_express_ts_init .bat
-
-
+package-lock.json
 

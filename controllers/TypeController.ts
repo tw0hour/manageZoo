@@ -1,7 +1,6 @@
 import {ModelCtor} from "sequelize";
-import {TypeInstance} from "../models/type";
+import {TypeCreationProps, TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
-import {symlink} from "fs";
 
 export class TypeController{
     Type:ModelCtor<TypeInstance>;
@@ -20,7 +19,23 @@ export class TypeController{
         this.Type = Type;
     }
 
-    public async getAll():Promise<TypeInstance | null>{
-        return null;//this.Type.findAll();
+    public async getAll(limit:number,offset:number):Promise<TypeInstance[] | null>{
+        return this.Type.findAll({
+            limit,
+            offset
+        });
     }
+
+    public async getById(id:number):Promise<TypeInstance|null>{
+        return this.Type.findOne({where: {
+                id
+            }});
+    }
+
+    public async addType(props: TypeCreationProps): Promise<TypeInstance | null> {
+        return this.Type.create({
+            ...props
+        });
+    }
+
 }
