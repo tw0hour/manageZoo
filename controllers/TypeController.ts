@@ -33,7 +33,7 @@ export class TypeController{
             }});
     }
 
-    public async removeById(id:number):Promise<Boolean>{
+    public async removeById(id:string):Promise<Boolean>{
         const type = this.getById(id);
         //if(type===undefined) return 0;
         const destroy=this.Type.destroy({
