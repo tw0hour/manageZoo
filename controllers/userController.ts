@@ -1,7 +1,6 @@
 import {ModelCtor} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user";
 import {SequelizeManager} from "../models";
-import {compare, hash} from "bcrypt";
 import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 

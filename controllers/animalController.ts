@@ -28,20 +28,20 @@ export class AnimalController {
     }
 
     public async getAllAnimal(limit: number, offset: number): Promise<AnimalInstance[] | null>{
-        return this.Animal.findAll({
+        return await this.Animal.findAll({
             limit,
             offset
         });
     }
 
     public async addAnimal(props: AnimalCreationProps): Promise<AnimalInstance | null> {
-        return this.Animal.create({
+        return await this.Animal.create({
             ...props
         });
     }
 
     public async getById(id: string): Promise<AnimalInstance | null> {
-        return this.Animal.findOne({
+        return await this.Animal.findOne({
             where :{
                 id: id
             }
