@@ -10,16 +10,16 @@ import {
 import {SpaceInstance} from "./space";
 import {PassInstance} from "./pass";
 
-export interface VisitProps {
+export interface UserProps {
     id: number;
     name: string;
     password: string;
     is_handicapped?: boolean;
 }
 
-export  interface UserCreationProps extends Optional<VisitProps, "id"> {}
+export  interface UserCreationProps extends Optional<UserProps, "id"> {}
 
-export interface UserInstance extends Model<VisitProps, UserCreationProps>, VisitProps {
+export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {
     getSpace: HasManyGetAssociationsMixin<SpaceInstance>;
     setSpace: HasManySetAssociationsMixin<UserInstance, "id">;
 
@@ -42,7 +42,7 @@ export default function (sequelize: Sequelize): ModelCtor<UserInstance> {
             type: DataTypes.STRING,
         },
         is_handicapped: {
-            type: DataTypes.BOOLEAN// TODO par defaut mettre a "false"
+            type: DataTypes.BOOLEAN
         }
     }, {
         freezeTableName: true,

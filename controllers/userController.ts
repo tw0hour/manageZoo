@@ -1,6 +1,14 @@
 import {ModelCtor} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user";
 import {SequelizeManager} from "../models";
+import {compare, hash} from "bcrypt";
+import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
+export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
+
+export interface UserPropsController {
+    name:string;
+    password:string;
+}
 
 export class UserController{
     User:ModelCtor<UserInstance>;
@@ -19,12 +27,92 @@ export class UserController{
         this.User = User;
     }
 
-    public async subscribe(props: UserCreationProps):
-        Promise<UserInstance | null> {
-        //const passwordHashed = await hash(props.password, 5);
-        return this.User.create({
+    public async subscribe(props: UserCreationProps): Promise<Object | null> {
+        const user = await this.getByName(props.name);
+        if(user)return null;
+
+        const createdUser = await this.User.create({
             ...props
+        });
+        if (!createdUser) return null;
+
+        const id = createdUser.id;
+        const token = jwt.sign({id}, JWT_KEY, {
+            expiresIn: JWT_EXPIRY
+        });
+
+        return {
+            message: "User created successfully",
+            createdUser,
+            token : token
+        };
+    }
+
+    public async connection(name:string,password:string): Promise<Object | null> {
+        const user = await this.User.findOne({
+            where: {
+                name,
+                password
+            }
+        });
+        if(!user) return null;
+
+        const id = user.id;
+        const token = jwt.sign({id}, JWT_KEY, {
+            expiresIn: JWT_EXPIRY
+        });
+
+        return {
+            message: "User connected successfully",
+            user,
+            token : token
+        };
+    }
+
+    public async getByName(name:string): Promise<UserInstance | null> {
+        return await this.User.findOne({
+            where: {
+                name
+            }
         });
     }
 
+    public async getById(id:string): Promise<UserInstance | null> {
+        const user =  await this.User.findOne({
+            where: {
+                id
+            }
+        });
+
+        if(!user)return null;
+        return user;
+    }
+
+    public async getAll(): Promise<UserInstance[] | null> {
+        return await this.User.findAll();
+    }
+
+    public async update(id:string,props:UserPropsController):Promise<Object | null> {
+        const user = await this.getById(id);
+        if(!user) return null;
+
+        return await this.User.update(
+            {...props},
+            {where :{id}}
+        );
+    }
+
+    public async delete(id:string): Promise<boolean> {
+        const user = await this.getById(id);
+        if(!user)return false;
+
+        const userDeleted = await this.User.destroy({
+            where: {
+                id
+            }
+        });
+
+        if(!userDeleted)return false;
+        return true;
+    }
 }
