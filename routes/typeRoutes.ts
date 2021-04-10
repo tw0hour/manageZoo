@@ -1,13 +1,14 @@
 import express from "express";
 import {TypeController} from "../controllers/TypeController";
+import {AnimalController} from "../controllers/animalController";
 
 
 const typeRoutes = express();
 
 
 typeRoutes.get("/",async function(req,res){
-    const limit = parseInt(req.query.limit as string) | 10;
-    const offset = parseInt(req.query.offset as string) | 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = parseInt(req.query.offset as string) || 1;
     const typeController = await TypeController.getInstance();
     const typeList = await typeController.getAll(limit,offset);
     if(typeList!==null){
@@ -20,8 +21,7 @@ typeRoutes.get("/",async function(req,res){
 
 
 typeRoutes.get("/:id",async function(req,res){
-
-    const id = parseInt(req.query.id as string);
+    const id = req.params.id;
     if(id===undefined){
         res.status(400).end();
         return;
@@ -59,31 +59,28 @@ typeRoutes.post("/", async function(req, res) {
 
 
 typeRoutes.put("/:id",async function(req,res){
-    const id = parseInt(req.params.id as string);
-    if(id===undefined){
+    const id = req.params.id;
+    const name = req.body.name;
+
+    if(id === null)
+    {
         res.status(400).end();
         return;
     }
+
     const typeController = await TypeController.getInstance();
-    const type = await typeController.getById(id);
-
-    if(type!==null){
-        const name = req.body.name || undefined;
-        if (name!==undefined){
-            type.name=name;
-            const update = typeController.update(type);
-            if(update!==undefined) {
-                res.status(201).end();
-                res.json(update);
-            }else {
-                res.status(409).end();
-            }
-        }
-    }else {
-        res.status(409).end();
+    const type = await typeController.update({
+        id:id,
+        name
+    });
+    if(type === null)
+    {
+        res.status(404).end();
     }
-
-    res.send("modifier" + req.params.id);
+    else
+    {
+        res.json(type);
+    }
 });
 
 
