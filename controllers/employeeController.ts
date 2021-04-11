@@ -2,11 +2,13 @@ import {ModelCtor} from "sequelize";
 import {EmployeeCreationProps, EmployeeInstance} from "../models/employee";
 import {SequelizeManager} from "../models";
 import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
-export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
+import {TypeController} from "./TypeController";
 
 export interface EmployeePropsController {
-    name:string;
-    password:string;
+    pseudo?:string;
+    password?:string;
+    type?:string;
+    state?:boolean;
 }
 
 export class EmployeeController{
@@ -26,14 +28,27 @@ export class EmployeeController{
         this.employee = employee;
     }
 
-    public async subscribe(props: EmployeeCreationProps): Promise<Object | null> {
+    public async subscribe(props: EmployeeCreationProps): Promise<any> {
         const employee = await this.getByName(props.pseudo);
-        if(employee)return null;
+        if(employee)return {
+            error: "name employee already exist",
+            statusCode: 409
+        };
+
+        const typeController = await TypeController.getInstance();
+        const type = await typeController.getByName(props.type);
+        if(!type) return {
+            error: "type should be exist",
+            statusCode: 409
+        };
 
         const createdEmployee = await this.employee.create({
             ...props
         });
-        if (!createdEmployee) return null;
+        if (!createdEmployee) return {
+            error: "server error",
+            statusCode: 500
+        };
 
         const id = createdEmployee.id;
         const token = jwt.sign({id}, JWT_KEY, {
@@ -43,18 +58,22 @@ export class EmployeeController{
         return {
             message: "employee created successfully",
             createdEmployee,
-            token : token
+            token : token,
+            statusCode: 201
         };
     }
 
-    public async connection(pseudo:string,password:string): Promise<Object | null> {
+    public async connection(pseudo:string,password:string): Promise<any> {
         const employee = await this.employee.findOne({
             where: {
                 pseudo,
                 password
             }
         });
-        if(!employee) return null;
+        if(!employee) return {
+            error:"not found",
+            statusCode:404
+        };
 
         const id = employee.id;
         const token = jwt.sign({id}, JWT_KEY, {
@@ -64,7 +83,8 @@ export class EmployeeController{
         return {
             message: "employee connected successfully",
             employee,
-            token : token
+            token : token,
+            statusCode:200
         };
     }
 
@@ -77,14 +97,11 @@ export class EmployeeController{
     }
 
     public async getById(id:string): Promise<EmployeeInstance | null> {
-        const employee =  await this.employee.findOne({
+        return await this.employee.findOne({
             where: {
                 id
             }
         });
-
-        if(!employee)return null;
-        return employee;
     }
 
     public async getAll(): Promise<EmployeeInstance[] | null> {
@@ -115,3 +132,4 @@ export class EmployeeController{
         return true;
     }
 }
+export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";

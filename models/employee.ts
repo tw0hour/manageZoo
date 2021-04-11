@@ -24,6 +24,7 @@ export interface EmployeeProps{
     id:number;
     pseudo:string;
     password:string;
+    state:boolean;
     type:string;
 }
 
@@ -55,6 +56,9 @@ export default function(sequelize:Sequelize):ModelCtor<EmployeeInstance>{
         },
         password:{
             type:DataTypes.STRING
+        },
+        state:{
+            type:DataTypes.BOOLEAN
         },
         type:{
             type:DataTypes.STRING

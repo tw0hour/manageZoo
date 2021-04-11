@@ -1,7 +1,6 @@
 import {ModelCtor} from "sequelize";
 import {TypeCreationProps, TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
-import {promises} from "dns";
 
 export class TypeController{
     Type:ModelCtor<TypeInstance>;
@@ -22,14 +21,20 @@ export class TypeController{
 
     public async getAll(limit:number,offset:number):Promise<TypeInstance[] | null>{
         return await this.Type.findAll({
-            limit,
-            offset
+            // limit,
+            // offset
         });
     }
 
     public async getById(id:string):Promise<TypeInstance|null>{
         return await this.Type.findOne({where: {
                 id
+            }});
+    }
+
+    public async getByName(name:string):Promise<TypeInstance|null>{
+        return await this.Type.findOne({where: {
+                name
             }});
     }
 
