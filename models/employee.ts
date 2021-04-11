@@ -30,8 +30,6 @@ export interface EmployeeProps{
 export interface EmployeeCreationProps extends Optional<EmployeeProps, "id"> {}
 
 export interface EmployeeInstance extends Model<EmployeeProps,EmployeeCreationProps>,EmployeeProps{
-    /*getSessions: HasManyGetAssociationsMixin<SessionInstance>;
-    addSession: HasManyAddAssociationMixin<SessionInstance, "id">;*/
 
     getType: HasOneGetAssociationMixin<TypeInstance>;
     setType: HasOneSetAssociationMixin<TypeInstance, "id">;
