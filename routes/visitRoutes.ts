@@ -1,21 +1,100 @@
 import express from "express";
+import {VisitController} from "../controllers/visitController";
 
 const visitRoutes = express();
 
-visitRoutes.get("/Visit:id",async function(req,res){
-    res.send("get " + req.params.id);
+visitRoutes.get("/:id",async function(req,res){
+    const visitController = await VisitController.getInstance();
+    const visit = await visitController.getById(req.params.id);
+    if(visit === null){
+        res.status(404).end();
+    }else{
+        res.json(visit);
+    }
 });
 
-visitRoutes.post("/addVisit", async function(req, res) {
-    res.send("post");
+visitRoutes.get("/",async function(req,res){
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = parseInt(req.query.offset as string) || 1;
+    const visitController = await VisitController.getInstance();
+    const visitList = await visitController.getAll(limit, offset);
+
+    if(visitList !== null)
+    {
+        res.json(visitList);
+        res.status(201).end();
+    }
+    else
+    {
+        res.status(409).end();
+    }
 });
 
-visitRoutes.put("/modifyVisit:id",async function(req,res){
-    res.send("modifier" + req.params.id);
+visitRoutes.post("/", async function(req, res) {
+    const name = req.body.name;
+
+    if(name === undefined){
+        res.status(400).end();
+        return;
+    }
+    const visitController = await VisitController.getInstance();
+    const visit = await visitController.add({
+
+        name
+    });
+    if(visit !== null) {
+        res.status(201);
+        res.json(visit);
+    }else {
+        res.status(404).end();
+    }
+
 });
 
-visitRoutes.delete("/delVisit" /*, authMiddleware*/, async function(req, res) {
-    res.send("sup la session");
+visitRoutes.put("/:id",async function(req,res){
+    const id = req.params.id;
+    const name = req.body.name;
+
+    if(id === null)
+    {
+        res.status(400).end();
+        return;
+    }
+
+    const visitController = await VisitController.getInstance();
+    const visit = await visitController.update({
+        id,
+        name
+    });
+    if(visit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(visit);
+    }
+});
+
+visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+    const id = req.params.id;
+
+    if(id === null)
+    {
+        res.status(400).end();
+    }
+    const visitController = await VisitController.getInstance();
+    const visitRemove = await visitController.removeById(id);
+
+    if(visitRemove)
+    {
+        res.status(204).end();
+    }
+    else
+    {
+        res.status(404).end();
+    }
+
 });
 
 export {
