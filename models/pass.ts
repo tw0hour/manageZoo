@@ -22,7 +22,7 @@ export interface PassInstance extends Model<PassProps,PassCreationProps>, PassPr
 }
 
 export default function(sequelize: Sequelize): ModelCtor<PassInstance> {
-    return sequelize.define<PassInstance>("Pass", {
+    return sequelize.define<PassInstance>("pass", {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,

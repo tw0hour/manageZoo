@@ -4,10 +4,6 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin,
-    HasManyAddAssociationMixin,
-    BelongsToGetAssociationMixin,
     HasOneGetAssociationMixin,
     HasOneSetAssociationMixin
 } from "sequelize";
