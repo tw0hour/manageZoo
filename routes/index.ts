@@ -5,6 +5,7 @@ import {typeRoutes} from "./typeRoutes";
 import {visitRoutes} from "./visitRoutes";
 import {animal_notebookRoutes} from "./animal_notebookRoutes";
 import {employeeRoutes} from "./employeeRoutes";
+import {spaceRoutes} from "./spaceRoutes";
 
 export function buildRoutes(app: Express) {
     app.use("/visit",visitRoutes)
@@ -13,4 +14,5 @@ export function buildRoutes(app: Express) {
     app.use("/type",typeRoutes);
     app.use("/animal_notebook",animal_notebookRoutes)
     app.use("/employee",employeeRoutes);
+    app.use("/space",spaceRoutes);
 }
