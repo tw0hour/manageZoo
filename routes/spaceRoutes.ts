@@ -1,21 +1,119 @@
 import express from "express";
+import {SpaceController} from "../controllers/spaceControllers";
 
 const spaceRoutes = express();
 
-spaceRoutes.get("/Space:id",async function(req,res){
-    res.send("get " + req.params.id);
+spaceRoutes.get("/:id",async function(req,res){
+    const spaceController = await SpaceController.getInstance();
+    const space = await spaceController.getById(req.params.id);
+    if(space === null){
+        res.status(404).end();
+    }else{
+        res.json(space);
+    }
 });
 
-spaceRoutes.post("/addSpace", async function(req, res) {
-    res.send("post");
+spaceRoutes.get("/",async function(req,res){
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = parseInt(req.query.offset as string) || 1;
+    const spaceController = await SpaceController.getInstance();
+    const spaceList = await spaceController.getAll(limit, offset);
+
+    if(spaceList !== null)
+    {
+        res.json(spaceList);
+        res.status(201).end();
+    }
+    else
+    {
+        res.status(409).end();
+    }
 });
 
-spaceRoutes.put("/modifySpace:id",async function(req,res){
-    res.send("modifier" + req.params.id);
+spaceRoutes.post("/", async function(req, res) {
+    const name = req.body.name;
+    const description = req.body.description;
+    const image = req.body.image;
+    const capacity = req.body.capacity;
+    const duration = req.body.duration;
+    const hour_open = req.body.hour_open;
+    const handicapped_access = req.body.handicapped_access;
+    const status = req.body.status;
+    if(name === undefined || description === undefined || image === undefined || capacity === undefined || duration === undefined || hour_open=== undefined || handicapped_access=== undefined){
+        res.status(400).end();
+        return;
+    }
+    const spaceController = await SpaceController.getInstance();
+    const space = await spaceController.add({
+        name,
+        description,
+        image,
+        capacity,
+        duration,
+        hour_open,
+        handicapped_access,
+        status
+    });
+    if(space !== null) {
+        res.status(201);
+        res.json(space);
+    }else {
+        res.status(404).end();
+    }
+
 });
 
-spaceRoutes.delete("/delSpace" /*, authMiddleware*/, async function(req, res) {
-    res.send("sup la session");
+spaceRoutes.put("/:id",async function(req,res){
+    const id = req.params.id;
+    const name = req.body.name;
+    const description = req.body.description;
+    const image = req.body.image;
+    const capacity = req.body.capacity;
+    const duration = req.body.duration;
+    const hour_open = req.body.hour_open;
+    const handicapped_access = req.body.handicapped_access;
+    const status = req.body.status;
+
+    if(id === null)
+    {
+        res.status(400).end();
+        return;
+    }
+
+    const spaceController = await SpaceController.getInstance();
+    const visit = await spaceController.update({
+        id,
+        name
+    });
+    if(visit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(visit);
+    }
+});
+
+spaceRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+    const id = req.params.id;
+
+    if(id === null)
+    {
+        res.status(400).end();
+    }
+    const spaceController = await SpaceController.getInstance();
+    const spaceRemove = await spaceController.removeById(id);
+
+    if(spaceRemove)
+    {
+        res.status(204).end();
+    }
+    else
+    {
+        res.status(404).end();
+    }
+
 });
 
 export {

@@ -1,7 +1,6 @@
 import {ModelCtor} from "sequelize";
 import {TypeCreationProps, TypeInstance} from "../models/type";
 import {SequelizeManager} from "../models";
-import {promises} from "dns";
 
 export class TypeController{
     Type:ModelCtor<TypeInstance>;
@@ -21,40 +20,57 @@ export class TypeController{
     }
 
     public async getAll(limit:number,offset:number):Promise<TypeInstance[] | null>{
-        return this.Type.findAll({
-            limit,
-            offset
+        return await this.Type.findAll({
+            // limit,
+            // offset
         });
     }
 
-    public async getById(id:number):Promise<TypeInstance|null>{
-        return this.Type.findOne({where: {
+    public async getById(id:string):Promise<TypeInstance|null>{
+        return await this.Type.findOne({where: {
                 id
             }});
     }
 
-    public async removeById(id:string):Promise<Boolean>{
-        const type = this.getById(parseInt(id));
-        //if(type===undefined) return 0;
-        const destroy=this.Type.destroy({
-            where:{
-                id
-            }
-        });
-        //console.log(destroy);
-        //if()
+    public async getByName(name:string):Promise<TypeInstance|null>{
+        return await this.Type.findOne({where: {
+                name
+            }});
+    }
 
-        return false;
+    public async removeById(id:string):Promise<Boolean>{
+        const typeToDelete = await this.getById(id);
+        if(typeToDelete === null)
+        {
+            return false;
+        }
+        else
+        {
+            try
+            {
+                await this.Type.destroy({
+                    where:{
+                        id: typeToDelete.id
+                    }
+                });
+                return true;
+            }
+            catch (err)
+            {
+                console.error(err);
+                return false;
+            }
+        }
     }
 
     public async addType(props: TypeCreationProps): Promise<TypeInstance | null> {
-        return this.Type.create({
+        return await this.Type.create({
             ...props
         });
     }
 
-    public async update(props:TypeInstance):Promise<TypeInstance | null>{
-        const typeUpdate = await this.getById(props.id);
+    public async update(options: { name: any; id: any }):Promise<TypeInstance | null>{
+        const typeUpdate = await this.getById(options.id.toString());
 
         if(typeUpdate === null)
         {
@@ -64,14 +80,13 @@ export class TypeController{
         {
             return await typeUpdate.update({
 
-                name: props.name
+                name: options.name
             }, {
                 where: {
-                    id: props.id
+                    id: options.id
                 }
             });
         }
-        return null;
     }
 
 }

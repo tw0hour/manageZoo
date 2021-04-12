@@ -24,14 +24,13 @@ export interface EmployeeProps{
     id:number;
     pseudo:string;
     password:string;
+    state:boolean;
     type:string;
 }
 
 export interface EmployeeCreationProps extends Optional<EmployeeProps, "id"> {}
 
 export interface EmployeeInstance extends Model<EmployeeProps,EmployeeCreationProps>,EmployeeProps{
-    /*getSessions: HasManyGetAssociationsMixin<SessionInstance>;
-    addSession: HasManyAddAssociationMixin<SessionInstance, "id">;*/
 
     getType: HasOneGetAssociationMixin<TypeInstance>;
     setType: HasOneSetAssociationMixin<TypeInstance, "id">;
@@ -57,6 +56,9 @@ export default function(sequelize:Sequelize):ModelCtor<EmployeeInstance>{
         },
         password:{
             type:DataTypes.STRING
+        },
+        state:{
+            type:DataTypes.BOOLEAN
         },
         type:{
             type:DataTypes.STRING

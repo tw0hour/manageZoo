@@ -9,7 +9,7 @@ export interface UserPropsController {
     password:string;
 }
 
-export class UserController{
+export class UserController {
     User:ModelCtor<UserInstance>;
 
     private static instance: UserController;
@@ -36,7 +36,7 @@ export class UserController{
         if (!createdUser) return null;
 
         const id = createdUser.id;
-        const token = jwt.sign({id}, JWT_KEY, {
+        const token = await jwt.sign({id}, JWT_KEY, {
             expiresIn: JWT_EXPIRY
         });
 
