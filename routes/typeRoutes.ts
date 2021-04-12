@@ -49,7 +49,7 @@ typeRoutes.post("/", async function(req, res) {
         name: name
     });
     if(type!==null){
-        res.status(201).end();
+        res.status(201);
         res.json(type);
     }else {
         res.status(409).end();
