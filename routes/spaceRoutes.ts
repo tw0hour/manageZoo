@@ -1,5 +1,6 @@
 import express from "express";
 import {SpaceController} from "../controllers/spaceControllers";
+import {authenticationUser} from "../middlewares/authentification";
 
 const spaceRoutes = express();
 
@@ -63,6 +64,33 @@ spaceRoutes.post("/", async function(req, res) {
 
 });
 
+spaceRoutes.put("/maintenance:id",authenticationUser, async function(req:express.Request,res:express.Response){
+    const id = req.params.id;
+    const status = req.body.status;
+    console.log(id);
+    if(status === undefined || id === undefined || status !== true && status !== false) {
+        res.status(400).end();
+        return;
+    }
+
+    const spaceController = await SpaceController.getInstance();
+    const visit = await spaceController.update({
+        id,
+        status
+    });
+    if(visit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(visit);
+    }
+
+});
+
+
+
 spaceRoutes.put("/:id",async function(req,res){
     const id = req.params.id;
     const name = req.body.name;
@@ -72,7 +100,7 @@ spaceRoutes.put("/:id",async function(req,res){
     const duration = req.body.duration;
     const hour_open = req.body.hour_open;
     const handicapped_access = req.body.handicapped_access;
-    const status = req.body.status;
+    //const status = req.body.status; // TODO CHECK QUOI FAIRE
 
     if(id === null)
     {
