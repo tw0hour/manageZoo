@@ -1,8 +1,10 @@
 import {ModelCtor} from "sequelize";
-import {EmployeeCreationProps, EmployeeInstance} from "../models/employee";
+import employee, {EmployeeCreationProps, EmployeeInstance} from "../models/employee";
 import {SequelizeManager} from "../models";
 import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 import {TypeController} from "./TypeController";
+import {userRoutes} from "../routes/userRoutes";
+import {promises} from "dns";
 
 export interface EmployeePropsController {
     pseudo?:string;
@@ -131,5 +133,52 @@ export class EmployeeController{
         if(!employeeDeleted)return false;
         return true;
     }
+
+
+    public async zooIsOpen():Promise<boolean>{
+        const employeeReception = await this.employee.findAndCountAll({
+            where:{
+                type:"acceuil",
+                state:1
+            }
+        });
+        if( employeeReception.count < 1) {
+            return false;
+        }
+
+        const employeeSeller = await this.employee.findAndCountAll({
+            where:{
+                type:"vendeur",
+                state:1
+            }
+        });
+        if( employeeSeller.count < 1) {
+            return false;
+        }
+
+        const employeeGroomer = await this.employee.findAndCountAll({
+            where:{
+                type:"soigneur",
+                state:1
+            }
+        });
+        if( employeeGroomer.count < 1) {
+            return false;
+        }
+
+        const employeeMaintenanceAgent = await this.employee.findAndCountAll({
+            where:{
+                type:"agent d'entretient",
+                state:1
+            }
+        });
+        if( employeeMaintenanceAgent.count < 1 ) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";

@@ -55,11 +55,7 @@ userRoutes.get("" /*, authMiddleware*/, async function(req, res) {
     }
 });
 
-userRoutes.get("/opening" /*, authMiddleware*/, async function(req, res) {
-    //TODO: check si ya vendeur.status && acceuil.status && soigneur.status && agent d'entretient.status
-    // si ok open sinon fermer
-    // A METTRE DANS LE CONTROLLEUR
-});
+
 
 
 userRoutes.get("/:id" /*, authMiddleware*/, async function(req, res) {
