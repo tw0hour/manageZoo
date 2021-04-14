@@ -5,8 +5,10 @@ import {AnimalController} from "../controllers/animalController";
 const animalRoutes = express();
 
 animalRoutes.get("/getById:id",async function(req,res){
+    const id = req.params.id;
+    if(!id) res.status(403).end();
     const animalController = await AnimalController.getInstance();
-    const animal = await animalController.getById(req.params.id);
+    const animal = await animalController.getById(id);
     if(animal === null){
         res.status(404).end();
     }else{
@@ -14,7 +16,7 @@ animalRoutes.get("/getById:id",async function(req,res){
     }
 });
 
-animalRoutes.get("/getAllAnimal",async function(req,res){
+animalRoutes.get("/",async function(req,res){
     const limit = parseInt(req.query.limit as string) | 10;
     const offset = parseInt(req.query.offset as string) | 1;
     const animalController = await AnimalController.getInstance();
