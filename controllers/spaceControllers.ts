@@ -64,7 +64,7 @@ export class SpaceController {
         else
         {
             return await spaceUpdate.update({
-                name: options.name
+                ...options
             }, {
                 where: {
                     id: options.id

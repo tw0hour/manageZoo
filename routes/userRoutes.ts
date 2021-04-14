@@ -27,6 +27,8 @@ userRoutes.post("/inscription", async function(req, res) {
     }
 });
 
+
+
 userRoutes.post("/connection", async function(req, res) {
     const userController = await UserController.getInstance();
     const name = req.body.name;
@@ -52,6 +54,9 @@ userRoutes.get("" /*, authMiddleware*/, async function(req, res) {
         res.status(404).end();
     }
 });
+
+
+
 
 userRoutes.get("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;
@@ -98,6 +103,8 @@ userRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
         res.status(404).end();
     }
 });
+
+
 
 
 export {
