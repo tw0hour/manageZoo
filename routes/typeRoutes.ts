@@ -105,7 +105,6 @@ typeRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
 });
 
 
-
 export {
     typeRoutes
 };

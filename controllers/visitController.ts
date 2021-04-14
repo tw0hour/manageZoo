@@ -5,7 +5,6 @@ import {SequelizeManager} from "../models";
 
 export interface VisitUpdateOption {
     id:string;
-    name?:string;
 }
 
 export class VisitController {
@@ -57,7 +56,6 @@ export class VisitController {
         else
         {
             return await visitUpdate.update({
-                name: options.name
             }, {
                 where: {
                     id: options.id
@@ -89,5 +87,10 @@ export class VisitController {
                 return false;
             }
         }
+    }
+    public async statistics():Promise<number> {
+        const allVisit = await this.Visit.findAndCountAll();
+        console.log(allVisit.count + "coucou debug");
+        return allVisit.count;
     }
 }

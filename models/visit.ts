@@ -12,7 +12,6 @@ import {SpaceInstance} from "./space";
 
 export interface VisitProps {
     id: number;
-    name: string;
 }
 
 export  interface VisitCreationProps extends Optional<VisitProps, "id"> {}
@@ -31,9 +30,6 @@ export default function (sequelize: Sequelize): ModelCtor<VisitInstance> {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true
-        },
-        name: {
-            type: DataTypes.STRING,
         }
     }, {
         freezeTableName: true,

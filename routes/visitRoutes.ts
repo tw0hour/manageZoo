@@ -30,51 +30,57 @@ visitRoutes.get("/",async function(req,res){
     }
 });
 
-visitRoutes.post("/", async function(req, res) {
-    const name = req.body.name;
-
-    if(name === undefined){
-        res.status(400).end();
-        return;
-    }
+visitRoutes.get("/stats", async function (req,res){
     const visitController = await VisitController.getInstance();
-    const visit = await visitController.add({
+    const stats = await visitController.statistics();
 
-        name
-    });
-    if(visit !== null) {
-        res.status(201);
-        res.json(visit);
-    }else {
-        res.status(404).end();
-    }
+    res.send(stats);
 
 });
 
-visitRoutes.put("/:id",async function(req,res){
-    const id = req.params.id;
-    const name = req.body.name;
-
-    if(id === null)
-    {
-        res.status(400).end();
-        return;
-    }
-
-    const visitController = await VisitController.getInstance();
-    const visit = await visitController.update({
-        id,
-        name
-    });
-    if(visit === null)
-    {
-        res.status(404).end();
-    }
-    else
-    {
-        res.json(visit);
-    }
-});
+// visitRoutes.post("/", async function(req, res) {
+//     const name = req.body.name;
+//
+//     if(name === undefined){
+//         res.status(400).end();
+//         return;
+//     }
+//     const visitController = await VisitController.getInstance();
+//     const visit = await visitController.add({
+//
+//         name
+//     });
+//     if(visit !== null) {
+//         res.status(201);
+//         res.json(visit);
+//     }else {
+//         res.status(404).end();
+//     }
+//
+// });
+//
+// visitRoutes.put("/:id",async function(req,res){
+//     const id = req.params.id;
+//
+//     if(id === null)
+//     {
+//         res.status(400).end();
+//         return;
+//     }
+//
+//     const visitController = await VisitController.getInstance();
+//     const visit = await visitController.update({
+//         id
+//     });
+//     if(visit === null)
+//     {
+//         res.status(404).end();
+//     }
+//     else
+//     {
+//         res.json(visit);
+//     }
+// });
 
 visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;
