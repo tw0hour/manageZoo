@@ -16,6 +16,7 @@ employeeRoutes.get("" /*, authMiddleware*/, async function(req, res) {
 
     const employeeController = await EmployeeController.getInstance();
     const employee = await employeeController.getAll();
+
     if(employee) {
         res.status(200);
         res.json(employee);
