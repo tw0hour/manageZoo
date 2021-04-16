@@ -6,7 +6,7 @@ import {ZooCreationProps, ZooInstance} from "../models/zoo";
 export interface ZooUpdateOption {
     id:string;
     name?:string;
-    isOpen?:string;
+    isOpen?:boolean;
 }
 
 export class ZooController {
@@ -27,12 +27,7 @@ export class ZooController {
         this.Zoo = Zoo;
     }
 
-    public async getAll(limit: number, offset: number): Promise<ZooInstance[] | null>{
-        return await this.Zoo.findAll({
-            limit,
-            offset
-        });
-    }
+
 
     public async add(props: ZooCreationProps): Promise<ZooInstance | null> {
         return await this.Zoo.create({

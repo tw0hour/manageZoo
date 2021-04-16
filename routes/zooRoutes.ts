@@ -1,5 +1,7 @@
 import express from "express";
 import {ZooController} from "../controllers/zooController";
+import {EmployeeController} from "../controllers/employeeController";
+import {authenticationUser} from "../middlewares/authentification";
 
 const zooRoutes = express();
 
@@ -13,66 +15,71 @@ zooRoutes.get("/:id",async function(req,res){
     }
 });
 
-zooRoutes.get("/",async function(req,res){
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 1;
-    const zooController = await ZooController.getInstance();
-    const zooList = await zooController.getAll(limit, offset);
+zooRoutes.post("/", async function(req, res) {
+    const name = req.body.name;
+    const isOpen = req.body.isOpen;
 
-    if(zooList !== null)
-    {
-        res.json(zooList);
-        res.status(201).end();
-    }
-    else
-    {
-        res.status(409).end();
-    }
-});
-
-// zooRoutes.post("/", async function(req, res) {
-//     const name = req.body.name;
-//
-//     if(name === undefined){
-//         res.status(400).end();
-//         return;
-//     }
-//     const zooController = await zooController.getInstance();
-//     const zoo = await zooController.add({
-//
-//         name
-//     });
-//     if(zoo !== null) {
-//         res.status(201);
-//         res.json(zoo);
-//     }else {
-//         res.status(404).end();
-//     }
-//
-// });
-//
-zooRoutes.put("/:id",async function(req,res){
-    const id = req.params.id;
-
-    if(id === null)
-    {
+    if(name === undefined){
         res.status(400).end();
         return;
     }
-
     const zooController = await ZooController.getInstance();
-    const zoo = await zooController.update({
-        id
+    const zoo = await zooController.add({
+            name,
+            isOpen
+
     });
-    if(zoo === null)
-    {
+    if(zoo !== null) {
+        res.status(201);
+        res.json(zoo);
+    }else {
         res.status(404).end();
     }
-    else
-    {
-        res.json(zoo);
+
+});
+
+zooRoutes.put("/ouvrir:id",authenticationUser,async function(req,res){
+    const id = req.params.id;
+    const isOpen = req.body.isOpen;
+
+    if(id === undefined || isOpen === undefined) res.status(404).end();
+
+    const employeeController  = await EmployeeController.getInstance();
+    const permissionToOpen = await employeeController.permissionToOpen();
+
+    if (permissionToOpen){
+        const zooController = await ZooController.getInstance();
+        const openZoo = await zooController.update({
+            id,
+            isOpen
+        });
+        if(openZoo!==null){
+            res.status(201);
+            res.json(openZoo);
+        }else {
+            res.status(404).end();
+        }//TODO PTND E 403 QUAND ON OUVRE : token de l'admin :eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjE4NTk4MTc1LCJleHAiOjE2MTg2ODQ1NzV9.833c6F0y8WQTZYvOL1s483RdZph-PppJLbO_igD9o9g
+    }else{
+        res.status(403).end();
     }
 });
+
+zooRoutes.put("/fermer:id",async function(req,res){
+    const id = req.params.id;
+        const zooController = await ZooController.getInstance();
+        const openZoo = await zooController.update({
+            id,
+            isOpen:false
+        });
+        if(openZoo!==null){
+            res.status(201);
+            res.json(openZoo);
+        }else {
+            res.status(404).end();
+        }
+
+});
+
 
 zooRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;
