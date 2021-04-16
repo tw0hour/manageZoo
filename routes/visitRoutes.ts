@@ -30,12 +30,18 @@ visitRoutes.get("/",async function(req,res){
     }
 });
 
-visitRoutes.get("/stats", async function (req,res){
+visitRoutes.post("/stats", async function (req,res){
     const visitController = await VisitController.getInstance();
     const stats = await visitController.statistics();
 
-    res.send(stats);
-
+    if(stats !== null){
+        res.json(stats);
+        res.status(201);
+    }
+    else
+    {
+        res.status(409).end();
+    }
 });
 
 // visitRoutes.post("/", async function(req, res) {

@@ -36,7 +36,7 @@ export default function (sequelize: Sequelize): ModelCtor<SpaceNotebookInstance>
             autoIncrement: true
         },
         bestMonth: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
         },
         timestamp: {
             type: DataTypes.STRING
