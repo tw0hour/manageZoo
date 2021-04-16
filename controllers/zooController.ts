@@ -17,8 +17,8 @@ export class ZooController {
 
     public static async getInstance(): Promise<ZooController> {
         if(ZooController.instance == undefined) {
-            const {Space} = await SequelizeManager.getInstance();
-            ZooController.instance = new ZooController(Space);
+            const {Zoo} = await SequelizeManager.getInstance();
+            ZooController.instance = new ZooController(Zoo);
         }
         return  ZooController.instance;
     }
