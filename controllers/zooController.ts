@@ -6,7 +6,7 @@ import {ZooCreationProps, ZooInstance} from "../models/zoo";
 export interface ZooUpdateOption {
     id:string;
     name?:string;
-    isOpen?:boolean;
+    is_open?:boolean;
 }
 
 export class ZooController {

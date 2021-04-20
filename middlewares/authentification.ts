@@ -15,7 +15,6 @@ export async function authenticationUser(req: express.Request, res: express.Resp
         catch(err) {
             res.status(500).end();
         }
-
         const employeeController = await EmployeeController.getInstance()
         const employee = await employeeController.getById(decoded.id);
         if(employee === null){

@@ -138,7 +138,7 @@ export class EmployeeController{
     public async permissionToOpen():Promise<boolean>{
         const employeeReception = await this.employee.findAndCountAll({
             where:{
-                type:"acceuil",
+                type:"accueil",
                 state:1
             }
         });

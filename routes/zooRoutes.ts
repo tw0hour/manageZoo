@@ -40,9 +40,11 @@ zooRoutes.post("/", async function(req, res) {
 
 zooRoutes.put("/ouvrir:id",authenticationUser,async function(req,res){
     const id = req.params.id;
-    const isOpen = req.body.isOpen;
+    const is_open = req.body.is_open;
 
-    if(id === undefined || isOpen === undefined) res.status(404).end();
+    if(id === undefined || is_open === undefined || !is_open && is_open) {
+        res.status(404).end();
+    }
 
     const employeeController  = await EmployeeController.getInstance();
     const permissionToOpen = await employeeController.permissionToOpen();
@@ -51,7 +53,7 @@ zooRoutes.put("/ouvrir:id",authenticationUser,async function(req,res){
         const zooController = await ZooController.getInstance();
         const openZoo = await zooController.update({
             id,
-            isOpen
+            is_open: is_open as boolean
         });
         if(openZoo!==null){
             res.status(201);
@@ -69,7 +71,7 @@ zooRoutes.put("/fermer:id",async function(req,res){
         const zooController = await ZooController.getInstance();
         const openZoo = await zooController.update({
             id,
-            isOpen:false
+            is_open:false
         });
         if(openZoo!==null){
             res.status(201);
