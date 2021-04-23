@@ -1,9 +1,9 @@
 import {
     DataTypes,
     HasOneGetAssociationMixin,
-    HasOneSetAssociationMixin,
+    HasOneSetAssociationMixin, literal,
     Model,
-    ModelCtor,
+    ModelCtor, NOW,
     Optional,
     Sequelize
 } from "sequelize";
@@ -12,6 +12,8 @@ import {SpaceInstance} from "./space";
 
 export interface VisitProps {
     id: number;
+    createdAt:Date;
+    updatedAt:Date;
 }
 
 export  interface VisitCreationProps extends Optional<VisitProps, "id"> {}
@@ -30,6 +32,16 @@ export default function (sequelize: Sequelize): ModelCtor<VisitInstance> {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true
+        },
+        createdAt: {
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
+        },
+        updatedAt: {
+            type: 'TIMESTAMP',
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+            allowNull: false
         }
     }, {
         freezeTableName: true,

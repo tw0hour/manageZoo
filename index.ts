@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import {SequelizeManager} from "./models";
 config(); // import les variables d'env
 
+
 const app:Express = express();
 export const jwt = require('jsonwebtoken');
 export const JWT_KEY = process.env.JWT_KEY || 'secret';
