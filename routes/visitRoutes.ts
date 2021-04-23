@@ -67,29 +67,7 @@ visitRoutes.post("/stats", async function (req,res){
 //     }
 //
 // });
-//
-// visitRoutes.put("/:id",async function(req,res){
-//     const id = req.params.id;
-//
-//     if(id === null)
-//     {
-//         res.status(400).end();
-//         return;
-//     }
-//
-//     const visitController = await VisitController.getInstance();
-//     const visit = await visitController.update({
-//         id
-//     });
-//     if(visit === null)
-//     {
-//         res.status(404).end();
-//     }
-//     else
-//     {
-//         res.json(visit);
-//     }
-// });
+
 
 visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;

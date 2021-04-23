@@ -33,7 +33,7 @@ animalRoutes.get("/getAll",async function(req,res){
     }
 });
 
-animalRoutes.get("/getNoteBook/id",async function(req,res){
+/*animalRoutes.get("/getNoteBook/id",async function(req,res){
     const id = req.params.id;
     if(!id) res.status(403).end();
     const animalController = await AnimalController.getInstance();
@@ -43,7 +43,7 @@ animalRoutes.get("/getNoteBook/id",async function(req,res){
     }else{
         res.json(noteBook);
     }
-});
+});*/
 
 animalRoutes.post("/add", async function(req, res) {
     const species = req.body.species;

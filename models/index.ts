@@ -61,11 +61,11 @@ JWT_KEY=secret*/
     private static async initialize(): Promise<SequelizeManager> {
         const sequelize = new Sequelize({
             dialect: 'mysql',//process.env.DB_DRIVER as Dialect,//'mysql',//
-            host: '127.0.0.1',
-            database: 'zoo',
-            username: 'abdallah',
-            password: '',
-            port: Number.parseInt('3000')
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            username: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            port: Number.parseInt(process.env.DB_PORT as string)
         });
         await sequelize.authenticate();
         const managerProps: SequelizeManagerProps = {
