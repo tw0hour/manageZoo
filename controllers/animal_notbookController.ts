@@ -39,6 +39,7 @@ export class Animal_notebookController {
     public async add(props: Animal_notebookCreationProps): Promise<Animal_notebookInstance | null> {
         return await this.Animal_notebook.create({
             ...props
+
         });
     }
 

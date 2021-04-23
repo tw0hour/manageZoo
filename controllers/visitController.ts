@@ -1,10 +1,14 @@
-import {ModelCtor} from "sequelize";
+import {ModelCtor, NOW, Op} from "sequelize";
 import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
+<<<<<<< HEAD
 import {SpaceController} from "./spaceControllers";
 import {PassController} from "./passController";
 import {UserController} from "./userController";
 import user from "../models/user";
+=======
+import {promises} from "dns";
+>>>>>>> a454e5a26386f1b931b996966ee002cfacac2920
 
 
 export interface VisitUpdateOption {
@@ -71,6 +75,7 @@ export class VisitController {
 
     public async removeById (id: string):Promise<Boolean> {
         const visitDelete = await this.getById(id);
+
         if(visitDelete === null)
         {
             return false;
@@ -98,6 +103,7 @@ export class VisitController {
         return await this.Visit.count();
     }
 
+
    /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {
         const spaceController = await SpaceController.getInstance();
         const space = await spaceController.getById(idSpace);
@@ -107,5 +113,20 @@ export class VisitController {
         const pass = await passController.getById(idPass);
 
         
+
+    /*public async weeklyVisit():Promise<number>{
+        const datenow:Date = new Date();
+        const datenowmoin7 =Date();
+        const lol =  await this.Visit.findAndCountAll({
+            where:{
+                createdAt:{
+                    $between:[
+                        datenow,
+                        10
+                    ]
+                }
+            }
+        });
+        return lol.count;
     }*/
 }
