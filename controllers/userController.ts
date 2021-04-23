@@ -2,11 +2,14 @@ import {ModelCtor} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user";
 import {SequelizeManager} from "../models";
 import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
+import pass from "../models/pass";
+import {PassController} from "./passController";
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 
 export interface UserPropsController {
     name:string;
     password:string;
+    is_handicapped:boolean;
 }
 
 export class UserController {
@@ -26,7 +29,7 @@ export class UserController {
         this.User = User;
     }
 
-    public async subscribe(props: UserCreationProps): Promise<Object | null> {
+    public async inscription(props: UserCreationProps): Promise<Object | null> {
         const user = await this.getByName(props.name);
         if(user)return null;
 
@@ -93,12 +96,21 @@ export class UserController {
 
     public async update(id:string,props:UserPropsController):Promise<Object | null> {
         const user = await this.getById(id);
+
         if(!user) return null;
 
         return await this.User.update(
             {...props},
             {where :{id}}
         );
+    }
+    public async subscribe(idUser: string, idPass: string): Promise<boolean> {
+        const passController = await PassController.getInstance();
+        const pass = await passController.getById(idPass);
+        if (!pass){
+            return false;
+        }
+        return true;
     }
 
     public async delete(id:string): Promise<boolean> {

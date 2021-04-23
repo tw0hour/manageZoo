@@ -50,17 +50,10 @@ export class SequelizeManager implements SequelizeManagerProps {
         }
         return SequelizeManager.instance;
     }
-/*PORT=3000
-DB_HOST=localhost
-DB_DRIVER=mysql
-DB_NAME=zoo
-DB_USER=abdallah
-DB_PASSWORD=
-DB_PORT=3306
-JWT_KEY=secret*/
+
     private static async initialize(): Promise<SequelizeManager> {
         const sequelize = new Sequelize({
-            dialect: 'mysql',//process.env.DB_DRIVER as Dialect,//'mysql',//
+            dialect: 'mysql',
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             username: process.env.DB_USER,

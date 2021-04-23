@@ -15,6 +15,7 @@ export interface UserProps {
     name: string;
     password: string;
     is_handicapped?: boolean;
+    idPass?: string;
 }
 
 export  interface UserCreationProps extends Optional<UserProps, "id"> {}
@@ -43,6 +44,9 @@ export default function (sequelize: Sequelize): ModelCtor<UserInstance> {
         },
         is_handicapped: {
             type: DataTypes.BOOLEAN
+        },
+        idPass: {
+            type: DataTypes.BIGINT
         }
     }, {
         freezeTableName: true,
