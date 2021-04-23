@@ -1,14 +1,8 @@
 import {ModelCtor, NOW, Op} from "sequelize";
 import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
-<<<<<<< HEAD
-import {SpaceController} from "./spaceControllers";
-import {PassController} from "./passController";
-import {UserController} from "./userController";
-import user from "../models/user";
-=======
-import {promises} from "dns";
->>>>>>> a454e5a26386f1b931b996966ee002cfacac2920
+
+
 
 
 export interface VisitUpdateOption {
