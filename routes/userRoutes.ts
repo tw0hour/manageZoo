@@ -1,6 +1,6 @@
 import express from "express";
 import {UserController} from "../controllers/userController";
-import {authenticationUser} from '../middlewares/authentification';
+import {authenticationEmployee} from '../middlewares/authentification';
 
 const userRoutes = express();
 

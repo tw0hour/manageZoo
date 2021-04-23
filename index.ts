@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import {SequelizeManager} from "./models";
 config(); // import les variables d'env
 
+
 const app:Express = express();
 export const jwt = require('jsonwebtoken');
 export const JWT_KEY = process.env.JWT_KEY || 'secret';
@@ -21,7 +22,7 @@ app.use(bodyParser.json());
 
 buildRoutes(app);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.listen(port,function (){
     console.log(`Listening on ${port}`);
