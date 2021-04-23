@@ -1,6 +1,10 @@
 import {ModelCtor} from "sequelize";
 import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
+import {SpaceController} from "./spaceControllers";
+import {PassController} from "./passController";
+import {UserController} from "./userController";
+import user from "../models/user";
 
 
 export interface VisitUpdateOption {
@@ -45,6 +49,7 @@ export class VisitController {
             }
         });
     }
+
     public async update(options: VisitUpdateOption): Promise<VisitInstance | null> {
 
         const visitUpdate = await this.getById(options.id);
@@ -88,9 +93,21 @@ export class VisitController {
             }
         }
     }
+
     public async statistics():Promise<number> {
         const allVisit = await this.Visit.findAndCountAll();
         console.log(allVisit.count + "coucou debug");
         return allVisit.count;
     }
+
+   /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {
+        const spaceController = await SpaceController.getInstance();
+        const space = await spaceController.getById(idSpace);
+        if(!space)return false;
+
+        const passController = await PassController.getInstance();
+        const pass = await passController.getById(idPass);
+
+        
+    }*/
 }

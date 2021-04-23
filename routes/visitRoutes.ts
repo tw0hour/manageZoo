@@ -1,5 +1,8 @@
 import express from "express";
 import {VisitController} from "../controllers/visitController";
+import {SpaceController} from "../controllers/spaceControllers";
+import {jwt, JWT_KEY, UserController} from "../controllers/userController";
+import {authenticationUser} from "../middlewares/authentification";
 
 const visitRoutes = express();
 
@@ -102,6 +105,27 @@ visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     }
 
 });
+
+//verify the pass in a space
+/*visitRoutes.get("/:idUser/idSpace",authenticationUser,async function(req,res){
+    const idSpace = req.params.isSpace;
+    if(!idSpace) res.status(403).end();
+
+    const auth = req.headers["authorization"]; // la c le token envoyer
+    const token = auth?.slice(7);
+    const decoded = jwt.verify(token, JWT_KEY);
+    const userController = await UserController.getInstance();
+    const user = await userController.getById(decoded.id);
+
+    const visitController = await VisitController.getInstance();
+    //const visit = await visitController.isValid(user?.getPass.toString(),idSpace);
+    if(visit === null){
+        res.status(404).end();
+    }else{
+        res.json(visit);
+    }
+});*/
+
 
 export {
     visitRoutes
