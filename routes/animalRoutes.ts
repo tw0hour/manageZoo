@@ -16,7 +16,7 @@ animalRoutes.get("/getById:id",async function(req,res){
     }
 });
 
-animalRoutes.get("/",async function(req,res){
+animalRoutes.get("/getAll",async function(req,res){
     const limit = parseInt(req.query.limit as string) | 10;
     const offset = parseInt(req.query.offset as string) | 1;
     const animalController = await AnimalController.getInstance();
@@ -30,6 +30,18 @@ animalRoutes.get("/",async function(req,res){
     else
     {
         res.status(409).end();
+    }
+});
+
+animalRoutes.get("/getNoteBook/id",async function(req,res){
+    const id = req.params.id;
+    if(!id) res.status(403).end();
+    const animalController = await AnimalController.getInstance();
+    const noteBook = await animalController.ViewAssociateNoteBook(id);
+    if(noteBook === null){
+        res.status(404).end();
+    }else{
+        res.json(noteBook);
     }
 });
 
@@ -52,7 +64,6 @@ animalRoutes.post("/add", async function(req, res) {
     }else {
         res.status(404).end();
     }
-
 });
 
 animalRoutes.put("/modify:id",async function(req,res){

@@ -1,5 +1,6 @@
 import express from "express";
 import {Animal_notebookController} from "../controllers/animal_notbookController";
+import {authenticationGroomer} from "../middlewares/AuthVeto";
 
 const animal_notebookRoutes = express();
 
@@ -33,18 +34,16 @@ animal_notebookRoutes.get("/",async function(req, res){
 animal_notebookRoutes.post("/", async function(req, res) {
     const description = req.body.description;
     const health_status = req.body.health_status;
-    const date = req.body.date;
 
 
-    if(date === undefined || description === undefined || health_status === undefined){
+    if(description === undefined || health_status === undefined){
         res.status(400).end();
         return;
     }
     const animal_notebookController = await Animal_notebookController.getInstance();
     const animal_notebook = await animal_notebookController.add({
         description,
-        health_status,
-        date
+        health_status
     });
     if(animal_notebook !== null) {
         res.status(201);
@@ -71,8 +70,7 @@ animal_notebookRoutes.put("/:id",async function(req, res){
     const animal_notebook = await animal_notebookController.update({
         id,
         description,
-        health_status,
-        date
+        health_status
     });
     if(animal_notebook === null)
     {
@@ -84,7 +82,7 @@ animal_notebookRoutes.put("/:id",async function(req, res){
     }
 });
 
-animal_notebookRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+animal_notebookRoutes.delete("/:id", async function(req, res) {
     const id = req.params.id;
 
     if(id === null)
@@ -104,6 +102,33 @@ animal_notebookRoutes.delete("/:id" /*, authMiddleware*/, async function(req, re
     }
 
 });
+
+// animal_notebookRoutes.put("/addInfo/:idNoteBook", authenticationGroomer, async function(req, res){
+//     const idNoteBook = req.params.idNoteBook;
+//     const description = req.body.description;
+//
+//     if(idNoteBook === null)
+//     {
+//         res.status(400).end();
+//     }
+//
+//     const animal_notebookController = await Animal_notebookController.getInstance();
+//     const animal_notebook = await animal_notebookController.update({
+//         id: idNoteBook,
+//         description
+//     });
+//
+//     if(animal_notebook === null)
+//     {
+//         res.status(404).end();
+//     }
+//     else
+//     {
+//         res.json(animal_notebook);
+//     }
+//
+// });
+
 
 export {
     animal_notebookRoutes

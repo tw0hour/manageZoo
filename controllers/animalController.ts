@@ -1,6 +1,7 @@
 import {ModelCtor} from "sequelize";
 import {AnimalCreationProps, AnimalInstance} from "../models/animal";
 import {SequelizeManager} from "../models";
+import {Animal_notebookInstance} from "../models/animal_notebook";
 
 
 export interface AnimalUpdateOption {
@@ -92,4 +93,22 @@ export class AnimalController {
             }
         }
     }
+
+    // public async ViewAssociateNoteBook(id: string): Promise<Animal_notebookInstance | Object | void> {
+    //     return await this.Animal.findOne({
+    //         where: {
+    //             id: id
+    //         }
+    //     }).then((animal) => {
+    //         if (animal === null){
+    //             return;
+    //         }
+    //         animal.getAnimalNoteBook().then((notebook) => {
+    //             return {
+    //                 description: notebook.description,
+    //                 health_status: notebook.health_status
+    //             }
+    //         });
+    //     });
+    // }
 }

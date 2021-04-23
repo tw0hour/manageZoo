@@ -18,7 +18,6 @@ export interface Animal_notebookProps{
     id:number;
     description:string;
     health_status:string;
-    date:string;
 }
 
 export interface Animal_notebookCreationProps extends Optional<Animal_notebookProps, "id">{}
@@ -42,9 +41,6 @@ export default function(sequelize:Sequelize): ModelCtor<Animal_notebookInstance>
             type:DataTypes.STRING
         },
         health_status:{
-            type:DataTypes.STRING
-        },
-        date:{
             type:DataTypes.STRING
         }
 

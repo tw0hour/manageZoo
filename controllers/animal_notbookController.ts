@@ -1,14 +1,13 @@
 import {ModelCtor} from "sequelize";
 import {Animal_notebookCreationProps, Animal_notebookInstance,} from "../models/animal_notebook";
 import {SequelizeManager} from "../models";
+import {AnimalInstance} from "../models/animal";
 
 
 export interface Animal_notebookUpdateOption {
     id:string;
     description?:string;
     health_status?:string;
-    date?:string;
-
 }
 
 export class Animal_notebookController {
@@ -38,7 +37,7 @@ export class Animal_notebookController {
 
     public async add(props: Animal_notebookCreationProps): Promise<Animal_notebookInstance | null> {
         return await this.Animal_notebook.create({
-            ...props
+            ...props,
         });
     }
 
@@ -61,8 +60,7 @@ export class Animal_notebookController {
         {
             return await animal_notebookUpdate.update({
                 description: options.description,
-                health_status: options.health_status,
-                date:options.date
+                health_status: options.health_status
 
             }, {
                 where: {

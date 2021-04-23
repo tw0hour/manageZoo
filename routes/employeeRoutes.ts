@@ -85,7 +85,7 @@ employeeRoutes.put("/:id",async function(req,res){
     return res.status(404).end();
 });
 
-employeeRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+employeeRoutes.delete("/:id", async function(req, res) {
     const id = req.params.id;
 
     const employeeController = await EmployeeController.getInstance();
