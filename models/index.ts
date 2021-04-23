@@ -10,6 +10,7 @@ import spaceNotebookCreator, {SpaceNotebookInstance} from "./spaceNotebook";
 import typeCreator, {TypeInstance} from "./type";
 import userCreator, {UserInstance} from "./user";
 import visitCreator, {VisitInstance} from "./visit";
+import zooCreator, {ZooInstance} from "./zoo";
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -23,6 +24,7 @@ export interface SequelizeManagerProps {
     Type: ModelCtor<TypeInstance>;
     User: ModelCtor<UserInstance>;
     Visit: ModelCtor<VisitInstance>;
+    Zoo: ModelCtor<ZooInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -40,6 +42,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     Type: ModelCtor<TypeInstance>;
     User: ModelCtor<UserInstance>;
     Visit: ModelCtor<VisitInstance>;
+    Zoo: ModelCtor<ZooInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -76,7 +79,8 @@ JWT_KEY=secret*/
             SpaceNotebook: spaceNotebookCreator(sequelize),
             User: userCreator(sequelize),
             Visit: visitCreator(sequelize),
-            Type: typeCreator(sequelize)
+            Type: typeCreator(sequelize),
+            Zoo: zooCreator(sequelize)
 
         }
         SequelizeManager.associate(managerProps);
@@ -124,6 +128,10 @@ JWT_KEY=secret*/
         props.User.belongsTo(props.Pass);
         props.Pass.hasMany(props.User);
 
+        //zoo / space
+        props.Zoo.hasMany(props.Space);
+        props.Space.belongsTo(props.Zoo);
+
     }
 
     private constructor(props: SequelizeManagerProps) {
@@ -138,5 +146,6 @@ JWT_KEY=secret*/
         this.Type = props.Type;
         this.User = props.User;
         this.Visit = props.Visit;
+        this.Zoo = props.Zoo;
     }
 }

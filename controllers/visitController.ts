@@ -95,9 +95,7 @@ export class VisitController {
     }
 
     public async statistics():Promise<number> {
-        const allVisit = await this.Visit.findAndCountAll();
-        console.log(allVisit.count + "coucou debug");
-        return allVisit.count;
+        return await this.Visit.count();
     }
 
    /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {

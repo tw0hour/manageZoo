@@ -13,6 +13,7 @@ import {SpaceNotebookInstance} from "./spaceNotebook";
 import {AnimalInstance} from "./animal";
 import {UserInstance} from "./user";
 import {VisitInstance} from "./visit";
+import {ZooInstance} from "./zoo";
 
 export interface SpaceProps {
     id: number;
@@ -40,6 +41,9 @@ export interface SpaceInstance extends Model<SpaceProps,SpaceCreationProps>, Spa
 
     getVisit: HasManyGetAssociationsMixin<VisitInstance>;
     setVisit: HasManySetAssociationsMixin<VisitInstance, "id">;
+
+    getZoo: HasOneGetAssociationMixin<ZooInstance>;
+    setZoo: HasOneSetAssociationMixin<ZooInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<SpaceInstance> {
