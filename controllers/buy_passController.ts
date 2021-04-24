@@ -1,6 +1,8 @@
 import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {Buy_passInstance} from "../models/buy_pass";
+import {PassController} from "./passController";
+import {UserController} from "./userController";
 
 
 export interface Buy_passUpdateOption {
@@ -28,8 +30,31 @@ export class Buy_passController {
         this.Buy_Pass = Family;
     }
 
-    public async isSameDay(idPpass: number):Promise<boolean>{
-        //const
+
+    public async isValidPassDate(buy_passId:string):Promise<boolean> {
+        let date = new Date();
+        const dateNow = (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
+        const buy_passController = await Buy_passController.getInstance();
+        const buy_pass = await buy_passController.getById(buy_passId);
+
+        if (buy_pass===null)return false;
+
+        const passController = await PassController.getInstance();
+        const pass = await passController.getById(buy_pass.pass_id);
+
+        if (pass?.type === "journee") {
+            return dateNow === buy_pass.date_bought;
+        } else if (pass?.type === "week-end") {
+            //todo do that shit
+            //si date achat date de plus de 2 jour return false
+            //
+        } else if (pass?.type === "annuel" || pass?.type === "1daymonth") {
+
+            let date_boughtFull = new Date(buy_pass.date_bought);
+            let date_boughtNextYear = (date_boughtFull.getMonth()+1)+"/"+date_boughtFull.getDate()+"/"+(date.getFullYear()+1);
+            const date_boughtNextYearFull = new Date(date_boughtNextYear);
+            return date < date_boughtNextYearFull;
+        }
         return false;
     }
 
@@ -43,11 +68,18 @@ export class Buy_passController {
     public async buyPass(user_id:string,pass_id:string): Promise<Buy_passInstance | null> {
         let date=new Date();
         const date_bought = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+
+        const userController = await UserController.getInstance();
+        const user = await userController.getById(user_id);
+        const passController = await PassController.getInstance();
+        const pass = await passController.getById(pass_id);
+
+        if (user === undefined || pass === undefined) return null;
+
         return await this.Buy_Pass.create({
             user_id,
             pass_id,
             date_bought
-
         });
     }
 
