@@ -31,9 +31,13 @@ export class Buy_passController {
     }
 
 
-    public async isValidPassDate(buy_pass:Buy_passInstance):Promise<boolean> {
+    public async isValidPassDate(buy_passId:string):Promise<boolean> {
         let date = new Date();
-        const dateNow = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        const dateNow = (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
+        const buy_passController = await Buy_passController.getInstance();
+        const buy_pass = await buy_passController.getById(buy_passId);
+
+        if (buy_pass===null)return false;
 
         const passController = await PassController.getInstance();
         const pass = await passController.getById(buy_pass.pass_id);
@@ -42,8 +46,14 @@ export class Buy_passController {
             return dateNow === buy_pass.date_bought;
         } else if (pass?.type === "week-end") {
             //todo do that shit
+            //si date achat date de plus de 2 jour return false
+            //
         } else if (pass?.type === "annuel" || pass?.type === "1daymonth") {
 
+            let date_boughtFull = new Date(buy_pass.date_bought);
+            let date_boughtNextYear = (date_boughtFull.getMonth()+1)+"/"+date_boughtFull.getDate()+"/"+(date.getFullYear()+1);
+            const date_boughtNextYearFull = new Date(date_boughtNextYear);
+            return date < date_boughtNextYearFull;
         }
         return false;
     }
