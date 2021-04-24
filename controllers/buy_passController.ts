@@ -30,20 +30,19 @@ export class Buy_passController {
         this.Buy_Pass = Family;
     }
 
-    public async isValid(buy_pass:Buy_passInstance):Promise<boolean>{
-        let date=new Date();
-        const dateNow = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+
+    public async isValidPassDate(buy_pass:Buy_passInstance):Promise<boolean> {
+        let date = new Date();
+        const dateNow = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
         const passController = await PassController.getInstance();
-        const pass= await passController.getById(buy_pass.pass_id);
+        const pass = await passController.getById(buy_pass.pass_id);
 
-        if (pass?.type==="journee"){
+        if (pass?.type === "journee") {
             return dateNow === buy_pass.date_bought;
-        }else if (pass?.type==="week-end"){
+        } else if (pass?.type === "week-end") {
             //todo do that shit
-        }else if (pass?.type==="annuel"){
-
-        }else if (pass?.type==="1daymonth"){
+        } else if (pass?.type === "annuel" || pass?.type === "1daymonth") {
 
         }
         return false;
