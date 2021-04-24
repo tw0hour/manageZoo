@@ -1,6 +1,7 @@
 import express from "express";
-import {VisitController} from "../controllers/visitController";
-import {authenticationAdmin} from "../middlewares/authentification";
+import {jwt, JWT_KEY, VisitController} from "../controllers/visitController";
+import {authenticationAdmin, authenticationUser} from "../middlewares/authentification";
+import {UserController} from "../controllers/userController";
 
 const visitRoutes = express();
 
@@ -87,8 +88,9 @@ visitRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
 
 });
 
-//verify the pass in a space
-/*visitRoutes.get("/:idUser/idSpace",authenticationUser,async function(req,res){
+//check if the user can visit the space
+
+visitRoutes.get("/:idSpace",authenticationUser,async function(req,res){
     const idSpace = req.params.isSpace;
     if(!idSpace) res.status(403).end();
 
@@ -98,14 +100,16 @@ visitRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
     const userController = await UserController.getInstance();
     const user = await userController.getById(decoded.id);
 
-    const visitController = await VisitController.getInstance();
-    //const visit = await visitController.isValid(user?.getPass.toString(),idSpace);
-    if(visit === null){
-        res.status(404).end();
-    }else{
-        res.json(visit);
+    if(user){
+        const visitController = await VisitController.getInstance();
+        const visit = await visitController.isValid(user.idPass,idSpace);
+        if(visit === null){
+            res.status(404).end();
+        }else{
+            res.json(visit);
+        }
     }
-});*/
+});
 
 
 export {

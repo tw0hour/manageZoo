@@ -1,10 +1,9 @@
 import {ModelCtor, NOW, Op} from "sequelize";
 import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
-
-
-
-
+import {SpaceController} from "./spaceControllers";
+import {PassController} from "./passController";
+export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 export interface VisitUpdateOption {
     id:string;
 }
@@ -98,13 +97,33 @@ export class VisitController {
     }
 
 
-   /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {
-        const spaceController = await SpaceController.getInstance();
-        const space = await spaceController.getById(idSpace);
-        if(!space)return false;
+   public async isValid(idPass:string,idSpace:string):Promise<boolean> {
+       const spaceController = await SpaceController.getInstance();
+       const space = await spaceController.getById(idSpace);
+       if (!space) return false;
 
-        const passController = await PassController.getInstance();
-        const pass = await passController.getById(idPass);
+       const passController = await PassController.getInstance();
+       const pass = await passController.getById(idPass);
+       if(!pass) return false;
+
+       switch (pass.id){
+           case 1:
+               //daily
+               break;
+           case 2:
+               //month
+               break;
+           case 3:
+               //weekend
+               break;
+           case 4:
+               //annuel
+               break;
+           case 5:
+               //pass escape game
+               break;
+       }
+   }
 
         
 
