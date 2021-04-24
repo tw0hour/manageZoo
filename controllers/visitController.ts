@@ -4,6 +4,7 @@ import {SequelizeManager} from "../models";
 import {SpaceController} from "./spaceControllers";
 import {PassController} from "./passController";
 import {Buy_passController} from "./buy_passController";
+import {UserController} from "./userController";
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 export interface VisitUpdateOption {
     id:string;
@@ -98,54 +99,25 @@ export class VisitController {
     }
 
 
-   public async isValid(idPass:string,idSpace:string):Promise<boolean> {
+   public async isValid(idUser:string,idSpace:string):Promise<boolean> {
        const spaceController = await SpaceController.getInstance();
        const space = await spaceController.getById(idSpace);
        if (!space) return false;
 
-       const passController = await PassController.getInstance();
-       const pass = await passController.getById(idPass);
-       if(!pass) return false;
+       const userController = await UserController.getInstance();
+       const user = await userController.getById(idUser);
+       if(!user) return false;
 
        const buy_passController = await Buy_passController.getInstance();
 
-       switch (pass.id){
-           case 1:
-               //daily
-               if(await buy_passController.isSameDay(pass.id)) return true;
-               break;
-           case 2:
-               //month
-               break;
-           case 3:
-               //weekend
-               break;
-           case 4:
-               //annuel
-               break;
-           case 5:
-               //pass escape game
-               break;
-       }
+       // on vérifie tout les abonnements du user
+       const buy_pass = await buy_passController.getByIdUser(idUser);
+       if(!buy_pass) return false;
 
+       for(var i=0;i<buy_pass.length;i++){
+            //appeler is validate pour chaque itération
+            // si true , renvoyer true
+       }
        return false;
    }
-
-        
-
-    /*public async weeklyVisit():Promise<number>{
-        const datenow:Date = new Date();
-        const datenowmoin7 =Date();
-        const lol =  await this.Visit.findAndCountAll({
-            where:{
-                createdAt:{
-                    $between:[
-                        datenow,
-                        10
-                    ]
-                }
-            }
-        });
-        return lol.count;
-    }*/
 }

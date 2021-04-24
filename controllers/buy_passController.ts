@@ -59,10 +59,10 @@ export class Buy_passController {
         });
     }
 
-    public async getByIdUser(id: string): Promise<Buy_passInstance | null> {
-        return await this.Buy_Pass.findOne({
+    public async getByIdUser(user_id: string): Promise<Buy_passInstance[] | null> {
+        return await this.Buy_Pass.findAll({
             where :{
-                id: id
+                user_id
             }
         });
     }

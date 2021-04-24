@@ -102,7 +102,7 @@ visitRoutes.get("/:idSpace",authenticationUser,async function(req,res){
 
     if(user){
         const visitController = await VisitController.getInstance();
-        const visit = await visitController.isValid(user.idPass,idSpace);
+        const visit = await visitController.isValid(decoded.id,idSpace);
         if(visit === null){
             res.status(404).end();
         }else{
