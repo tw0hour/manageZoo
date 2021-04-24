@@ -43,11 +43,13 @@ export class Buy_passController {
         const pass = await passController.getById(buy_pass.pass_id);
 
         if (pass?.type === "journee") {
-            return dateNow === buy_pass.date_bought;
+            const isWeDay = new Date(buy_pass.date_bought);
+            return dateNow === buy_pass.date_bought && (isWeDay.getDay() !== 0 || isWeDay.getDay() !== 6);
         } else if (pass?.type === "week-end") {
-            //todo do that shit
-            //si date achat date de plus de 2 jour return false
-            //
+            //todo: marche que pour un jour du week-end pas pour les deux
+            //getday() dimanche=0 samedi=6
+            const isWeDay = new Date(buy_pass.date_bought);
+            return dateNow === buy_pass.date_bought && (isWeDay.getDay() === 0 || isWeDay.getDay() === 6);
         } else if (pass?.type === "annuel" || pass?.type === "1daymonth") {
 
             let date_boughtFull = new Date(buy_pass.date_bought);
