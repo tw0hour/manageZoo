@@ -1,6 +1,8 @@
 import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {Buy_passInstance} from "../models/buy_pass";
+import {PassController} from "./passController";
+import {UserController} from "./userController";
 
 
 export interface Buy_passUpdateOption {
@@ -28,8 +30,22 @@ export class Buy_passController {
         this.Buy_Pass = Family;
     }
 
-    public static async isValid(pass:Buy_passInstance):Promise<boolean>{
-        //const
+    public async isValid(buy_pass:Buy_passInstance):Promise<boolean>{
+        let date=new Date();
+        const dateNow = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+
+        const passController = await PassController.getInstance();
+        const pass= await passController.getById(buy_pass.pass_id);
+
+        if (pass?.type==="journee"){
+            return dateNow === buy_pass.date_bought;
+        }else if (pass?.type==="week-end"){
+            //todo do that shit
+        }else if (pass?.type==="annuel"){
+
+        }else if (pass?.type==="1daymonth"){
+
+        }
         return false;
     }
 
@@ -43,11 +59,18 @@ export class Buy_passController {
     public async buyPass(user_id:string,pass_id:string): Promise<Buy_passInstance | null> {
         let date=new Date();
         const date_bought = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
+
+        const userController = await UserController.getInstance();
+        const user = await userController.getById(user_id);
+        const passController = await PassController.getInstance();
+        const pass = await passController.getById(pass_id);
+
+        if (user === undefined || pass === undefined) return null;
+
         return await this.Buy_Pass.create({
             user_id,
             pass_id,
             date_bought
-
         });
     }
 
