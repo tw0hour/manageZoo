@@ -7,12 +7,14 @@ import {
     Optional,
     Sequelize
 } from "sequelize";
-import {UserInstance} from "./user";
+import user, {UserInstance} from "./user";
 import {PassInstance} from "./pass";
 
 export interface Buy_passProps {
-    id: number;
+    id: string;
     date_bought:string;
+    user_id:string;
+    pass_id:string;
 }
 
 export  interface Buy_passCreationProps extends Optional<Buy_passProps, "id"> {}
@@ -34,6 +36,12 @@ export default function (sequelize: Sequelize): ModelCtor<Buy_passInstance> {
         },
         date_bought: {
             type: DataTypes.STRING
+        },
+        user_id:{
+            type:DataTypes.STRING
+        },
+        pass_id:{
+            type:DataTypes.STRING
         }
     }, {
         freezeTableName: true,
