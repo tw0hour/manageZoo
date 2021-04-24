@@ -28,7 +28,7 @@ export class Buy_passController {
         this.Buy_Pass = Family;
     }
 
-    public static async isValid(pass:Buy_passInstance):Promise<boolean>{
+    public async isSameDay(idPpass: number):Promise<boolean>{
         //const
         return false;
     }

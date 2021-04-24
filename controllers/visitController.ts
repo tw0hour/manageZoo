@@ -3,6 +3,7 @@ import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
 import {SpaceController} from "./spaceControllers";
 import {PassController} from "./passController";
+import {Buy_passController} from "./buy_passController";
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 export interface VisitUpdateOption {
     id:string;
@@ -106,9 +107,12 @@ export class VisitController {
        const pass = await passController.getById(idPass);
        if(!pass) return false;
 
+       const buy_passController = await Buy_passController.getInstance();
+
        switch (pass.id){
            case 1:
                //daily
+               if(await buy_passController.isSameDay(pass.id)) return true;
                break;
            case 2:
                //month
@@ -123,6 +127,8 @@ export class VisitController {
                //pass escape game
                break;
        }
+
+       return false;
    }
 
         
