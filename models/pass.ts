@@ -10,6 +10,7 @@ import {UserInstance} from "./user";
 export interface PassProps {
     id: number;
     type: string;
+    price:number;
     description: string;
 }
 
@@ -30,6 +31,9 @@ export default function(sequelize: Sequelize): ModelCtor<PassInstance> {
         },
         type: {
             type: DataTypes.STRING,
+        },
+        price: {
+            type: DataTypes.BIGINT,
         },
         description: {
             type: DataTypes.STRING,

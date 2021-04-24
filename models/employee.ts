@@ -4,15 +4,9 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    BelongsToSetAssociationMixin,
     HasManyGetAssociationsMixin,
-    HasManyAddAssociationMixin,
-    BelongsToGetAssociationMixin,
     HasOneGetAssociationMixin,
     HasOneSetAssociationMixin,
-    BelongsToMany,
-    BelongsToManyGetAssociationsMixin,
-    BelongsToManySetAssociationsMixin,
     HasManySetAssociationsMixin
 } from "sequelize";
 import {SpaceInstance} from "./space";

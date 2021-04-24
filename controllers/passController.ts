@@ -7,6 +7,7 @@ export interface PassUpdateOption {
     id: string;
     type?: string;
     description?: string;
+    price?:number;
 }
 
 export class PassController {

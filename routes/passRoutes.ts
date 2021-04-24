@@ -34,15 +34,17 @@ passRoutes.get("/getAllPass",async function(req,res){
 passRoutes.post("/add", async function(req, res) {
     const type = req.body.type;
     const description = req.body.description;
+    const price = req.body.price;
 
-    if(type === undefined || description === undefined){
+    if(type === undefined || description === undefined || price === undefined){
         res.status(400).end();
         return;
     }
     const passController = await PassController.getInstance();
     const pass = await passController.addPass({
         type,
-        description
+        description,
+        price
     });
     if(pass !== null) {
         res.status(201);
@@ -57,6 +59,7 @@ passRoutes.put("/modify:id",async function(req,res){
     const id = req.params.id;
     const type = req.body.type;
     const description = req.body.description;
+    const price = req.body.price;
 
     if(id === null)
     {
@@ -68,7 +71,8 @@ passRoutes.put("/modify:id",async function(req,res){
     const pass = await passController.updatePass({
         id,
         type,
-        description
+        description,
+        price
     });
     if(pass === null)
     {
