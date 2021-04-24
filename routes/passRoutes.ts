@@ -1,5 +1,6 @@
 import express from "express";
 import {PassController} from "../controllers/passController";
+import {authenticationAdmin, authenticationUser} from "../middlewares/authentification";
 
 
 const passRoutes = express();
@@ -31,7 +32,7 @@ passRoutes.get("/getAllPass",async function(req,res){
     }
 });
 
-passRoutes.post("/add", async function(req, res) {
+passRoutes.post("/add", authenticationAdmin,async function(req, res) {
     const type = req.body.type;
     const description = req.body.description;
     const price = req.body.price;
@@ -55,7 +56,7 @@ passRoutes.post("/add", async function(req, res) {
 
 });
 
-passRoutes.put("/modify:id",async function(req,res){
+passRoutes.put("/modify:id",authenticationAdmin,async function(req,res){
     const id = req.params.id;
     const type = req.body.type;
     const description = req.body.description;
@@ -84,7 +85,7 @@ passRoutes.put("/modify:id",async function(req,res){
     }
 });
 
-passRoutes.delete("/removePassById:id" /*, authMiddleware*/, async function(req, res) {
+passRoutes.delete("/removePassById:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)

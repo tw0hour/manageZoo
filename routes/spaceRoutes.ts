@@ -1,6 +1,6 @@
 import express from "express";
 import {SpaceController} from "../controllers/spaceControllers";
-import {authenticationEmployee} from "../middlewares/authentification";
+import {authenticationAdmin} from "../middlewares/authentification";
 
 const spaceRoutes = express();
 
@@ -64,7 +64,7 @@ spaceRoutes.post("/", async function(req, res) {
 
 });
 
-spaceRoutes.put("/maintenance:id",authenticationEmployee, async function(req:express.Request, res:express.Response){
+spaceRoutes.put("/maintenance:id",authenticationAdmin, async function(req:express.Request, res:express.Response){
     const id = req.params.id;
     const status = req.body.status;
     console.log(id);

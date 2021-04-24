@@ -1,5 +1,4 @@
 import {ModelCtor, Sequelize} from "sequelize";
-import {Dialect} from "sequelize/types/lib/sequelize";
 import animalCreator, {AnimalInstance} from "./animal";
 import animal_notebookCreator, {Animal_notebookInstance} from "./animal_notebook";
 import employeeCreator, {EmployeeInstance} from "./employee";
@@ -11,6 +10,8 @@ import typeCreator, {TypeInstance} from "./type";
 import userCreator, {UserInstance} from "./user";
 import visitCreator, {VisitInstance} from "./visit";
 import zooCreator, {ZooInstance} from "./zoo";
+import buy_passCreator, {Buy_passInstance} from "./buy_pass";
+
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -25,6 +26,7 @@ export interface SequelizeManagerProps {
     User: ModelCtor<UserInstance>;
     Visit: ModelCtor<VisitInstance>;
     Zoo: ModelCtor<ZooInstance>;
+    Buy_Pass: ModelCtor<Buy_passInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -43,6 +45,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     User: ModelCtor<UserInstance>;
     Visit: ModelCtor<VisitInstance>;
     Zoo: ModelCtor<ZooInstance>;
+    Buy_Pass: ModelCtor<Buy_passInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -73,7 +76,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             User: userCreator(sequelize),
             Visit: visitCreator(sequelize),
             Type: typeCreator(sequelize),
-            Zoo: zooCreator(sequelize)
+            Zoo: zooCreator(sequelize),
+            Buy_Pass: buy_passCreator(sequelize)
 
         }
         SequelizeManager.associate(managerProps);
@@ -115,11 +119,15 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         //visit / user
         props.User.hasMany(props.Visit);
-        props.Visit.belongsTo(props.Visit);
+        props.Visit.belongsTo(props.User);
 
-        //user / pass
-        props.User.belongsTo(props.Pass);
-        props.Pass.hasMany(props.User);
+        //user / Buy_pass
+        props.User.hasMany(props.Buy_Pass);
+        props.Buy_Pass.belongsTo(props.User);
+
+        //Pass / Buy_pass
+        props.Pass.hasMany(props.Buy_Pass);
+        props.Buy_Pass.belongsTo(props.Pass);
 
         //zoo / space
         props.Zoo.hasMany(props.Space);
@@ -140,5 +148,6 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.User = props.User;
         this.Visit = props.Visit;
         this.Zoo = props.Zoo;
+        this.Buy_Pass = props.Buy_Pass;
     }
 }

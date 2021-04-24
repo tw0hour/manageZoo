@@ -2,9 +2,7 @@ import {jwt, JWT_KEY, UserController} from "../controllers/userController";
 import express from "express";
 import {EmployeeController} from "../controllers/employeeController";
 
-
-
-export async function authenticationEmployee(req: express.Request, res: express.Response, next: express.NextFunction) {
+export async function authenticationAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
     const auth = req.headers["authorization"]; // la c le token envoyer
     if(auth !== undefined){
         const token = auth.slice(7);
