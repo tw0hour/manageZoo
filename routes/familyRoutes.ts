@@ -1,10 +1,11 @@
 import express from "express";
 import {FamilyController} from "../controllers/familyController";
+import {authenticationAdmin, authenticationEmployees} from "../middlewares/authentification";
 
 const familyRoutes = express();
 
 
-familyRoutes.get("/getById:id", async function(req,res){
+familyRoutes.get("/getById:id",authenticationEmployees, async function(req,res){
     const familyController = await FamilyController.getInstance();
     const family = await familyController.getById(req.params.id);
     if(family === null){
@@ -14,7 +15,7 @@ familyRoutes.get("/getById:id", async function(req,res){
     }
 });
 
-familyRoutes.get("/getAllFamily", async function(req,res){
+familyRoutes.get("/getAllFamily",authenticationEmployees, async function(req,res){
     const limit = parseInt(req.query.limit as string) | 10;
     const offset = parseInt(req.query.offset as string) | 1;
     const familyController = await FamilyController.getInstance();
@@ -31,7 +32,7 @@ familyRoutes.get("/getAllFamily", async function(req,res){
     }
 });
 
-familyRoutes.post("/add", async function(req, res) {
+familyRoutes.post("/add",authenticationAdmin, async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined){
@@ -51,7 +52,7 @@ familyRoutes.post("/add", async function(req, res) {
 
 });
 
-familyRoutes.put("/modify:id",async function(req,res){
+familyRoutes.put("/modify:id",authenticationAdmin,async function(req,res){
     const id = req.params.id;
     const name = req.body.name;
 
@@ -76,7 +77,7 @@ familyRoutes.put("/modify:id",async function(req,res){
     }
 });
 
-familyRoutes.delete("/removeById:id" /*, authMiddleware*/, async function(req, res) {
+familyRoutes.delete("/removeById:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)

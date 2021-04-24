@@ -1,5 +1,6 @@
 import express from "express";
 import {AnimalController} from "../controllers/animalController";
+import {authenticationAdmin, authenticationEmployees} from "../middlewares/authentification";
 
 
 const animalRoutes = express();
@@ -33,8 +34,7 @@ animalRoutes.get("/getAll",async function(req,res){
     }
 });
 
-
-animalRoutes.post("/add", async function(req, res) {
+animalRoutes.post("/add", authenticationAdmin,async function(req, res) {
     const species = req.body.species;
     const name = req.body.name;
 
@@ -55,7 +55,7 @@ animalRoutes.post("/add", async function(req, res) {
     }
 });
 
-animalRoutes.put("/modify:id",async function(req,res){
+animalRoutes.put("/modify:id",authenticationAdmin,async function(req,res){
     const id = req.params.id;
     const species = req.body.species;
     const name = req.body.name;
@@ -82,7 +82,7 @@ animalRoutes.put("/modify:id",async function(req,res){
     }
 });
 
-animalRoutes.delete("/removeAnimalById:id" /*, authMiddleware*/, async function(req, res) {
+animalRoutes.delete("/removeAnimalById:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)

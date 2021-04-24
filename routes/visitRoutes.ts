@@ -1,12 +1,10 @@
 import express from "express";
 import {VisitController} from "../controllers/visitController";
-import {SpaceController} from "../controllers/spaceControllers";
-import {jwt, JWT_KEY, UserController} from "../controllers/userController";
-import {authenticationUser} from "../middlewares/authentification";
+import {authenticationAdmin} from "../middlewares/authentification";
 
 const visitRoutes = express();
 
-visitRoutes.get("/:id",async function(req,res){
+visitRoutes.get("/:id",authenticationAdmin,async function(req,res){
     const visitController = await VisitController.getInstance();
     const visit = await visitController.getById(req.params.id);
     if(visit === null){
@@ -16,7 +14,7 @@ visitRoutes.get("/:id",async function(req,res){
     }
 });
 
-visitRoutes.get("/",async function(req,res){
+visitRoutes.get("/",authenticationAdmin,async function(req,res){
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = parseInt(req.query.offset as string) || 1;
     const visitController = await VisitController.getInstance();
@@ -33,7 +31,7 @@ visitRoutes.get("/",async function(req,res){
     }
 });
 
-visitRoutes.post("/stats", async function (req,res){
+visitRoutes.post("/stats",authenticationAdmin, async function (req,res){
     const visitController = await VisitController.getInstance();
     const stats = await visitController.statistics();
 
@@ -68,8 +66,7 @@ visitRoutes.post("/stats", async function (req,res){
 //
 // });
 
-
-visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+visitRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)
@@ -95,7 +92,7 @@ visitRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     const idSpace = req.params.isSpace;
     if(!idSpace) res.status(403).end();
 
-    const auth = req.headers["authorization"]; // la c le token envoyer
+    const auth = req.headers["authorization"];
     const token = auth?.slice(7);
     const decoded = jwt.verify(token, JWT_KEY);
     const userController = await UserController.getInstance();

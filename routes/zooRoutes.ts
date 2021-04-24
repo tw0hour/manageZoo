@@ -82,7 +82,6 @@ zooRoutes.put("/fermer:id",async function(req,res){
 
 });
 
-
 zooRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;
 

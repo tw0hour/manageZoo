@@ -31,7 +31,7 @@ spaceRoutes.get("/",async function(req,res){
     }
 });
 
-spaceRoutes.post("/", async function(req, res) {
+spaceRoutes.post("/",authenticationAdmin, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const image = req.body.image;
@@ -68,7 +68,7 @@ spaceRoutes.put("/maintenance:id",authenticationAdmin, async function(req:expres
     const id = req.params.id;
     const status = req.body.status;
     console.log(id);
-    if(status === undefined || id === undefined || status !== true && status !== false) {
+    if(status !== true && status !== false) {
         res.status(400).end();
         return;
     }
@@ -89,9 +89,7 @@ spaceRoutes.put("/maintenance:id",authenticationAdmin, async function(req:expres
 
 });
 
-
-
-spaceRoutes.put("/:id",async function(req,res){
+spaceRoutes.put("/:id",authenticationAdmin,async function(req,res){
     const id = req.params.id;
     const name = req.body.name;
     const description = req.body.description;
@@ -100,7 +98,6 @@ spaceRoutes.put("/:id",async function(req,res){
     const duration = req.body.duration;
     const hour_open = req.body.hour_open;
     const handicapped_access = req.body.handicapped_access;
-    //const status = req.body.status; // TODO CHECK QUOI FAIRE
 
     if(id === null)
     {
@@ -111,7 +108,13 @@ spaceRoutes.put("/:id",async function(req,res){
     const spaceController = await SpaceController.getInstance();
     const visit = await spaceController.update({
         id,
-        name
+        name,
+        description,
+        image,
+        capacity,
+        duration,
+        hour_open,
+        handicapped_access
     });
     if(visit === null)
     {
@@ -123,7 +126,7 @@ spaceRoutes.put("/:id",async function(req,res){
     }
 });
 
-spaceRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+spaceRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)

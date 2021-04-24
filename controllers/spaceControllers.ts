@@ -53,24 +53,21 @@ export class SpaceController {
             }
         });
     }
+
     public async update(options: SpaceUpdateOption): Promise<SpaceInstance | null> {
 
         const spaceUpdate = await this.getById(options.id);
 
-        if(spaceUpdate === null)
-        {
-            return null;
-        }
-        else
-        {
-            return await spaceUpdate.update({
-                ...options
-            }, {
-                where: {
-                    id: options.id
-                }
-            });
-        }
+        if(spaceUpdate === null) return null;
+
+        return await spaceUpdate.update({
+            ...options
+        }, {
+            where: {
+                id: options.id
+            }
+        });
+
     }
 
     public async removeById (id: string):Promise<Boolean> {

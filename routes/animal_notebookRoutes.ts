@@ -1,10 +1,10 @@
 import express from "express";
 import {Animal_notebookController} from "../controllers/animal_notbookController";
-import {authenticationGroomer} from "../middlewares/AuthVeto";
+import {authenticationEmployees, authenticationVeterinary} from "../middlewares/authentification";
 
 const animal_notebookRoutes = express();
 
-animal_notebookRoutes.get("/:id",async function(req, res){
+animal_notebookRoutes.get("/:id",authenticationEmployees,async function(req, res){
     const animal_notebookController = await Animal_notebookController.getInstance();
     const animal_notebook = await animal_notebookController.getById(req.params.id);
     if(animal_notebook === null){
@@ -14,7 +14,7 @@ animal_notebookRoutes.get("/:id",async function(req, res){
     }
 });
 
-animal_notebookRoutes.get("/",async function(req, res){
+animal_notebookRoutes.get("/",authenticationEmployees,async function(req, res){
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = parseInt(req.query.offset as string) || 1;
     const animal_notebookController = await Animal_notebookController.getInstance();
@@ -31,7 +31,7 @@ animal_notebookRoutes.get("/",async function(req, res){
     }
 });
 
-animal_notebookRoutes.post("/", async function(req, res) {
+animal_notebookRoutes.post("/",authenticationVeterinary, async function(req, res) {
     const description = req.body.description;
     const health_status = req.body.health_status;
 
@@ -54,7 +54,7 @@ animal_notebookRoutes.post("/", async function(req, res) {
 
 });
 
-animal_notebookRoutes.put("/:id",async function(req, res){
+animal_notebookRoutes.put("/:id",authenticationVeterinary,async function(req, res){
     const id = req.params.id;
     const description = req.body.description;
     const health_status = req.body.health_status;
@@ -82,7 +82,7 @@ animal_notebookRoutes.put("/:id",async function(req, res){
     }
 });
 
-animal_notebookRoutes.delete("/:id", async function(req, res) {
+animal_notebookRoutes.delete("/:id",authenticationVeterinary, async function(req, res) {
     const id = req.params.id;
 
     if(id === null)
