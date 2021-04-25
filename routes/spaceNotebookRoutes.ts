@@ -1,9 +1,10 @@
 import express from "express";
 import {SpaceNoteBookController} from "../controllers/SpaceNotebookController";
+import {authenticationAdmin, authenticationMaintenanceAgent} from "../middlewares/authentification";
 
 const spaceNotebookRoutes = express();
 
-spaceNotebookRoutes.get("/:id",async function(req,res){
+spaceNotebookRoutes.get("/:id",authenticationMaintenanceAgent(),async function(req,res){
     const id = req.params.id;
     if(!id)res.status(403).end();
     const spaceNoteBookController = await SpaceNoteBookController.getInstance();
@@ -15,7 +16,7 @@ spaceNotebookRoutes.get("/:id",async function(req,res){
     }
 });
 
-spaceNotebookRoutes.get("/",async function(req,res){
+spaceNotebookRoutes.get("",authenticationMaintenanceAgent,async function(req,res){
 
     const spaceNoteBookController = await SpaceNoteBookController.getInstance();
     const spaceNoteBook = await spaceNoteBookController.getAllSpaceNoteBook();
@@ -26,7 +27,7 @@ spaceNotebookRoutes.get("/",async function(req,res){
     }
 });
 
-spaceNotebookRoutes.post("/new", async function(req, res) {
+spaceNotebookRoutes.post("/new", authenticationMaintenanceAgent,async function(req, res) {
     const bestMonth = req.body.bestMonth;
     const timestamp = req.body.timestamp;
 
@@ -47,7 +48,7 @@ spaceNotebookRoutes.post("/new", async function(req, res) {
     }
 });
 
-spaceNotebookRoutes.put("/:id",async function(req,res){
+spaceNotebookRoutes.put("/:id",authenticationMaintenanceAgent,async function(req,res){
     const bestMonth = req.body.bestMonth;
     const timestamp = req.body.timestamp;
     const id = req.params.id;
@@ -69,7 +70,7 @@ spaceNotebookRoutes.put("/:id",async function(req,res){
     }
 });
 
-spaceNotebookRoutes.delete("/:id", async function(req, res) {
+spaceNotebookRoutes.delete("/:id",authenticationMaintenanceAgent, async function(req, res) {
     const id = req.params.id;
     if(!id)res.status(403).end();
     const spaceNoteBookController = await SpaceNoteBookController.getInstance();

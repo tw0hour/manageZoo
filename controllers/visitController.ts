@@ -1,10 +1,11 @@
 import {ModelCtor, NOW, Op} from "sequelize";
 import {VisitCreationProps, VisitInstance} from "../models/visit";
 import {SequelizeManager} from "../models";
-
-
-
-
+import {SpaceController} from "./spaceControllers";
+import {PassController} from "./passController";
+import {Buy_passController} from "./buy_passController";
+import {UserController} from "./userController";
+export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 export interface VisitUpdateOption {
     id:string;
 }
@@ -185,29 +186,25 @@ export class VisitController {
         });
     }
 
-   /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {
-        const spaceController = await SpaceController.getInstance();
-        const space = await spaceController.getById(idSpace);
-        if(!space)return false;
+   public async isValid(idUser:string,idSpace:string):Promise<boolean> {
+       const spaceController = await SpaceController.getInstance();
+       const space = await spaceController.getById(idSpace);
+       if (!space) return false;
 
-        const passController = await PassController.getInstance();
-        const pass = await passController.getById(idPass);
+       const userController = await UserController.getInstance();
+       const user = await userController.getById(idUser);
+       if(!user) return false;
 
+       const buy_passController = await Buy_passController.getInstance();
 
+       // on vérifie tout les abonnements du user
+       const buy_pass = await buy_passController.getByIdUser(idUser);
+       if(!buy_pass) return false;
 
-    /*public async weeklyVisit():Promise<number>{
-        const datenow:Date = new Date();
-        const datenowmoin7 =Date();
-        const lol =  await this.Visit.findAndCountAll({
-            where:{
-                createdAt:{
-                    $between:[
-                        datenow,
-                        10
-                    ]
-                }
-            }
-        });
-        return lol.count;
-    }*/
+       for(var i=0;i<buy_pass.length;i++){
+            //appeler is validate pour chaque itération
+            // si true , renvoyer true
+       }
+       return false;
+   }
 }

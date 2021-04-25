@@ -1,6 +1,6 @@
 import express from "express";
 import {jwt, JWT_KEY, UserController} from "../controllers/userController";
-import {authenticationUser} from '../middlewares/authentification';
+import {authenticationAdmin, authenticationUser} from '../middlewares/authentification';
 
 const userRoutes = express();
 
@@ -28,8 +28,6 @@ userRoutes.post("/inscription", async function(req, res) {
     }
 });
 
-
-
 userRoutes.post("/connection", async function(req, res) {
     const userController = await UserController.getInstance();
     const name = req.body.name;
@@ -44,7 +42,7 @@ userRoutes.post("/connection", async function(req, res) {
     }
 });
 
-userRoutes.get("" /*, authMiddleware*/, async function(req, res) {
+userRoutes.get("" , async function(req, res) {
 
     const userController = await UserController.getInstance();
     const user = await userController.getAll();
@@ -55,9 +53,6 @@ userRoutes.get("" /*, authMiddleware*/, async function(req, res) {
         res.status(404).end();
     }
 });
-
-
-
 
 userRoutes.get("/:id" /*, authMiddleware*/, async function(req, res) {
     const id = req.params.id;
@@ -72,7 +67,7 @@ userRoutes.get("/:id" /*, authMiddleware*/, async function(req, res) {
     }
 });
 
-userRoutes.put("/:id",async function(req,res){
+userRoutes.put("/:id",authenticationUser,async function(req,res){
     const name = req.body.name ? req.body.name : null;
     const password = req.body.password ? req.body.password : null;
     const id = req.params.id;
@@ -127,7 +122,7 @@ userRoutes.post("/subscribe:idPass", authenticationUser,async function(req,res){
     }
 });
 
-userRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
+userRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
     const userController = await UserController.getInstance();
@@ -140,13 +135,6 @@ userRoutes.delete("/:id" /*, authMiddleware*/, async function(req, res) {
     }
 });
 
-
-
-
 export {
     userRoutes
 };
-
-
-// const token = req.headers["x-access-token"];
-// if (!token) return res.status(401).json('Unauthorize user');
