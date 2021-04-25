@@ -182,7 +182,7 @@ visitRoutes.get("/:idSpace",authenticationUser,async function(req,res){
     if(user){
         const visitController = await VisitController.getInstance();
         const visit = await visitController.isValid(decoded.id,idSpace);
-        if(visit === null){
+        if(!visit){
             res.status(404).end();
         }else{
             res.json(visit);
