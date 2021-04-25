@@ -202,8 +202,9 @@ export class VisitController {
        if(!buy_pass) return false;
 
        for(var i=0;i<buy_pass.length;i++){
-            //appeler is validate pour chaque itération
-            // si true , renvoyer true
+            if(await buy_passController.isValidPassDate(buy_pass[i].id)){
+                return true;
+            }
        }
        return false;
    }
