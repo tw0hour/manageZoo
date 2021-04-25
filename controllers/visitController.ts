@@ -94,6 +94,9 @@ export class VisitController {
         }
     }
 
+    /**
+     * @return Toutes les visites depuis la création du Zoo
+     */
     public async statistics():Promise<number> {
         return await this.Visit.count();
     }

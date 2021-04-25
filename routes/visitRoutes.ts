@@ -17,7 +17,7 @@ visitRoutes.get("/:id",authenticationAdmin,async function(req,res){
 
 visitRoutes.get("/",authenticationAdmin,async function(req,res){
     const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 1;
+    const offset = parseInt(req.query.offset as string) || 0;
     const visitController = await VisitController.getInstance();
     const visitList = await visitController.getAll(limit, offset);
 
