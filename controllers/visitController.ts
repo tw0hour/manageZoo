@@ -190,16 +190,18 @@ export class VisitController {
        const spaceController = await SpaceController.getInstance();
        const space = await spaceController.getById(idSpace);
        if (!space) return false;
-
+        console.log("space" + space);
        const userController = await UserController.getInstance();
        const user = await userController.getById(idUser);
        if(!user) return false;
+       console.log("user" + user);
 
        const buy_passController = await Buy_passController.getInstance();
 
        // on vérifie tout les abonnements du user
        const buy_pass = await buy_passController.getByIdUser(idUser);
        if(!buy_pass) return false;
+       console.log("buy pass : " + buy_pass);
 
        for(var i=0;i<buy_pass.length;i++){
             if(await buy_passController.isValidPassDate(buy_pass[i].id)){
