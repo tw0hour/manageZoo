@@ -9,7 +9,7 @@ const typeRoutes = express();
 
 typeRoutes.get("/",authenticationEmployees,async function(req,res){
     const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 1;
+    const offset = parseInt(req.query.offset as string) || 0;
     const typeController = await TypeController.getInstance();
     const typeList = await typeController.getAll(limit,offset);
     if(typeList!==null){
