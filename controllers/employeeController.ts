@@ -168,7 +168,7 @@ export class EmployeeController{
 
         const employeeMaintenanceAgent = await this.employee.findAndCountAll({
             where:{
-                type:"agent entretient",
+                type:"agent entretien",
                 state:1
             }
         });
