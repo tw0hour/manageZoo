@@ -74,7 +74,7 @@ spaceNotebookRoutes.delete("/:id",authenticationMaintenanceAgent, async function
     const id = req.params.id;
     if(!id)res.status(403).end();
     const spaceNoteBookController = await SpaceNoteBookController.getInstance();
-    const spaceNoteBook = await spaceNoteBookController.getById(id);
+    const spaceNoteBook = await spaceNoteBookController.removeSpaceNoteBookById(id);
     if(spaceNoteBook === null){
         res.status(404).end();
     }else{

@@ -4,6 +4,7 @@ import {SequelizeManager} from "../models";
 import {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 import pass from "../models/pass";
 import {PassController} from "./passController";
+import {Buy_passController} from "./buy_passController";
 export {jwt, JWT_EXPIRY, JWT_KEY} from "../index";
 
 export interface UserPropsController {
@@ -110,6 +111,11 @@ export class UserController {
         if (!pass){
             return false;
         }
+        const buyPassController = await  Buy_passController.getInstance();
+        const buyPass = await buyPassController.buyPass(idUser, idPass);
+
+        if(!buyPass) return false;
+
         return true;
     }
 
