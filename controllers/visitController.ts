@@ -97,6 +97,93 @@ export class VisitController {
         return await this.Visit.count();
     }
 
+    /**
+     * @param idSpace
+     * @return Nombre de visite de l'espace par rapport à la date du jour (sysdate())
+     */
+    public async dailyVisitPerSpace(idSpace: string): Promise<number> {
+        let currentDate = new Date();
+        const date = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+        return this.Visit.count({
+            where:{
+                id_space : idSpace,
+                createdAt: date
+            }
+        });
+    }
+
+    /**
+     * @return Le nombre de visite tout espace confondu par rapport à la date du jour (sysdate())
+     */
+    public async dailyVisitPerZoo(): Promise<number> {
+        let currentDate = new Date();
+        const date = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+        return this.Visit.count({
+            where:{
+                createdAt: date
+            }
+        });
+    }
+
+    public async visitPerSpaceAndDate(idSpace: string, dateParam: string): Promise<number> {
+        return this.Visit.count({
+            where:{
+                id_space : idSpace,
+                createdAt: dateParam
+            }
+        });
+    }
+
+    /**
+     * @return Le nombre de visite tout espace confondu les 7 derniers jours
+     */
+
+    public async weeklyVisitPerZoo(): Promise<number> {
+        const currentDate = new Date();
+        const curDate = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+        const last_Week = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const lastWeek = last_Week.getDate() + "/" + (last_Week.getMonth() + 1) + "/" + last_Week.getFullYear();
+
+        console.log("Controller | date : " + curDate);
+        console.log("Controller | firstDay - 7 : " + lastWeek);
+
+        return this.Visit.count({
+            where:{
+                createdAt:{
+                    [Op.lt]: curDate,
+                    [Op.gt]: lastWeek
+                }
+            }
+        });
+    }
+
+    /**
+     * @param idSpace
+     * @return Nombre de visite de l'espace les 7 derniers jours
+     */
+    public async weeklyVisitPerSpace(idSpace: string): Promise<number> {
+        const currentDate = new Date();
+        const curDate = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+        const last_Week = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        const lastWeek = last_Week.getDate() + "/" + (last_Week.getMonth() + 1) + "/" + last_Week.getFullYear();
+
+        console.log("Controller | date : " + curDate);
+        console.log("Controller | firstDay - 7 : " + lastWeek);
+
+        return this.Visit.count({
+            where:{
+                id_space: idSpace,
+                createdAt:{
+                    [Op.lt]: curDate,
+                    [Op.gt]: lastWeek
+                }
+            }
+        });
+    }
 
    /* public async isValid(idSpace:string,idPass:string):Promise<boolean> {
         const spaceController = await SpaceController.getInstance();
@@ -106,7 +193,7 @@ export class VisitController {
         const passController = await PassController.getInstance();
         const pass = await passController.getById(idPass);
 
-        
+
 
     /*public async weeklyVisit():Promise<number>{
         const datenow:Date = new Date();

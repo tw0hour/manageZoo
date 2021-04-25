@@ -33,6 +33,85 @@ visitRoutes.get("/",async function(req,res){
     }
 });
 
+visitRoutes.get("/dailyVisitPerSpace/:idSpace", async function(req,res){
+    const idSpace = req.params.idSpace;
+    const visitController = await VisitController.getInstance();
+    const nbVisit = await visitController.dailyVisitPerSpace(idSpace);
+
+    if(idSpace === null || nbVisit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(nbVisit);
+        res.status(201).end();
+    }
+});
+
+visitRoutes.post("/dailyVisitPerZoo", async function(req,res){
+    const visitController = await VisitController.getInstance();
+    const nbVisit = await visitController.dailyVisitPerZoo();
+
+    if(nbVisit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(nbVisit);
+        res.status(201).end();
+    }
+});
+
+visitRoutes.get("/visitPerSpaceAndDate/:idSpace", async function(req,res){
+    const idSpace = req.params.idSpace;
+    const date = req.body.date;
+    const visitController = await VisitController.getInstance();
+    const nbVisit = await visitController.visitPerSpaceAndDate(idSpace, date);
+
+    if(idSpace === null || nbVisit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(nbVisit);
+        res.status(201).end();
+    }
+});
+
+visitRoutes.post("/weeklyVisitPerZoo", async function(req,res){
+    const visitController = await VisitController.getInstance();
+    const nbVisit = await visitController.weeklyVisitPerZoo();
+
+    if(nbVisit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(nbVisit);
+        res.status(201).end();
+    }
+});
+
+visitRoutes.get("/weeklyVisitPerSpace/:idSpace", async function(req,res){
+    const idSpace = req.params.idSpace;
+    const visitController = await VisitController.getInstance();
+    const nbVisit = await visitController.weeklyVisitPerSpace(idSpace);
+
+    if(nbVisit === null)
+    {
+        res.status(404).end();
+    }
+    else
+    {
+        res.json(nbVisit);
+        res.status(201).end();
+    }
+});
+
 visitRoutes.post("/stats", async function (req,res){
     const visitController = await VisitController.getInstance();
     const stats = await visitController.statistics();

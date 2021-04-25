@@ -13,6 +13,7 @@ import {SpaceInstance} from "./space";
 export interface VisitProps {
     id: number;
     createdAt:Date;
+    id_space: string;
 }
 
 export  interface VisitCreationProps extends Optional<VisitProps, "id"> {}
@@ -33,6 +34,9 @@ export default function (sequelize: Sequelize): ModelCtor<VisitInstance> {
             autoIncrement: true
         },
         createdAt: {
+            type: DataTypes.STRING
+        },
+        id_space :{
             type: DataTypes.STRING
         }
     }, {
