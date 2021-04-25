@@ -16,7 +16,7 @@ spaceRoutes.get("/:id",async function(req,res){
 
 spaceRoutes.get("/",async function(req,res){
     const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 1;
+    const offset = parseInt(req.query.offset as string) || 0;
     const spaceController = await SpaceController.getInstance();
     const spaceList = await spaceController.getAll(limit, offset);
 

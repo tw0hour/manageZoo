@@ -3,7 +3,7 @@ import express from "express";
 import {EmployeeController} from "../controllers/employeeController";
 
 export async function authenticationAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const auth = req.headers["authorization"]; // la c le token envoyer
+    const auth = req.headers["authorization"];
     if(auth !== undefined){
         const token = auth.slice(7);
         let decoded;
@@ -59,7 +59,7 @@ export async function authenticationAdmin(req: express.Request, res: express.Res
 // }
 
 export async function authenticationEmployees(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const auth = req.headers["authorization"]; // la c le token envoyer
+    const auth = req.headers["authorization"];
     if(auth !== undefined){
         const token = auth.slice(7);
         let decoded;
@@ -100,7 +100,7 @@ export async function authenticationVeterinary(req: express.Request, res: expres
         if(employee === null){
             res.status(404).end();
         }else{
-            if (employee.type === "veterinaire" || employee.type ==="admin"){
+            if (employee.type === "soigneur" || employee.type ==="admin"){
                 next();
                 return;
             }else{

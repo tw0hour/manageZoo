@@ -125,27 +125,6 @@ visitRoutes.post("/stats",authenticationAdmin, async function (req,res){
     }
 });
 
-// visitRoutes.post("/", async function(req, res) {
-//     const name = req.body.name;
-//
-//     if(name === undefined){
-//         res.status(400).end();
-//         return;
-//     }
-//     const visitController = await VisitController.getInstance();
-//     const visit = await visitController.add({
-//
-//         name
-//     });
-//     if(visit !== null) {
-//         res.status(201);
-//         res.json(visit);
-//     }else {
-//         res.status(404).end();
-//     }
-//
-// });
-
 visitRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
     const id = req.params.id;
 
@@ -169,8 +148,8 @@ visitRoutes.delete("/:id",authenticationAdmin, async function(req, res) {
 
 //check if the user can visit the space
 
-visitRoutes.get("/:idSpace",authenticationUser,async function(req,res){
-    const idSpace = req.params.isSpace;
+visitRoutes.get("/canVisit/:idSpace",authenticationUser,async function(req,res){
+    const idSpace = req.params.idSpace;
     if(!idSpace) res.status(403).end();
 
     const auth = req.headers["authorization"];

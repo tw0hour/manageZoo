@@ -16,8 +16,8 @@ passRoutes.get("/getById:id",async function(req,res){
 });
 
 passRoutes.get("/getAllPass",async function(req,res){
-    const limit = parseInt(req.query.limit as string) | 10;
-    const offset = parseInt(req.query.offset as string) | 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = parseInt(req.query.offset as string) || 0;
     const passController = await PassController.getInstance();
     const passList = await passController.getAllPass(limit, offset);
 

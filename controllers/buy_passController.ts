@@ -6,8 +6,6 @@ import {UserController} from "./userController";
 
 
 export interface Buy_passUpdateOption {
-    //id: string;
-    //date_bought: string;
     user_id?:number;
     pass_id?:number;
 }
@@ -46,8 +44,6 @@ export class Buy_passController {
             const isWeDay = new Date(buy_pass.date_bought);
             return dateNow === buy_pass.date_bought && (isWeDay.getDay() !== 0 || isWeDay.getDay() !== 6);
         } else if (pass?.type === "week-end") {
-            //todo: marche que pour un jour du week-end pas pour les deux
-            //getday() dimanche=0 samedi=6
             const isWeDay = new Date(buy_pass.date_bought);
             return dateNow === buy_pass.date_bought && (isWeDay.getDay() === 0 || isWeDay.getDay() === 6);
         } else if (pass?.type === "annuel" || pass?.type === "1daymonth") {

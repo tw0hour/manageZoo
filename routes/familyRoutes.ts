@@ -15,7 +15,7 @@ familyRoutes.get("/getById:id",authenticationEmployees, async function(req,res){
     }
 });
 
-familyRoutes.get("/getAllFamily",authenticationEmployees, async function(req,res){
+familyRoutes.get("/getAll",authenticationEmployees, async function(req,res){
     const limit = parseInt(req.query.limit as string) | 10;
     const offset = parseInt(req.query.offset as string) | 1;
     const familyController = await FamilyController.getInstance();

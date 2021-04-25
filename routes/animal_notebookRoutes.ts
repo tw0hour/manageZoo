@@ -58,9 +58,8 @@ animal_notebookRoutes.put("/:id",authenticationVeterinary,async function(req, re
     const id = req.params.id;
     const description = req.body.description;
     const health_status = req.body.health_status;
-    const date = req.body.date;
 
-    if(id === null || date === undefined || description === undefined || health_status === undefined)
+    if(id === null || description === undefined || health_status === undefined)
     {
         res.status(400).end();
         return;
@@ -102,33 +101,6 @@ animal_notebookRoutes.delete("/:id",authenticationVeterinary, async function(req
     }
 
 });
-
-// animal_notebookRoutes.put("/addInfo/:idNoteBook", authenticationGroomer, async function(req, res){
-//     const idNoteBook = req.params.idNoteBook;
-//     const description = req.body.description;
-//
-//     if(idNoteBook === null)
-//     {
-//         res.status(400).end();
-//     }
-//
-//     const animal_notebookController = await Animal_notebookController.getInstance();
-//     const animal_notebook = await animal_notebookController.update({
-//         id: idNoteBook,
-//         description
-//     });
-//
-//     if(animal_notebook === null)
-//     {
-//         res.status(404).end();
-//     }
-//     else
-//     {
-//         res.json(animal_notebook);
-//     }
-//
-// });
-
 
 export {
     animal_notebookRoutes

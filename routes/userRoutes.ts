@@ -54,7 +54,7 @@ userRoutes.get("" , async function(req, res) {
     }
 });
 
-userRoutes.get("/:id" /*, authMiddleware*/, async function(req, res) {
+userRoutes.get("/:id", async function(req, res) {
     const id = req.params.id;
 
     const userController = await UserController.getInstance();
@@ -88,7 +88,7 @@ userRoutes.put("/:id",authenticationUser,async function(req,res){
     }
 });
 
-userRoutes.post("/subscribe:idPass", authenticationUser,async function(req,res){
+userRoutes.post("/subscribe/:idPass", authenticationUser,async function(req,res){
     const auth = req.headers["authorization"];
     let decoded;
     if(auth === undefined) {
@@ -104,8 +104,7 @@ userRoutes.post("/subscribe:idPass", authenticationUser,async function(req,res){
             res.status(500).end();
         }
     }
-    const idPass = req.params.idPass || null;
-    console.log("idpass" + idPass);
+    const idPass = req.params.idPass;
     if(!idPass) {
         res.status(400).end();
         return;
@@ -113,7 +112,6 @@ userRoutes.post("/subscribe:idPass", authenticationUser,async function(req,res){
 
     const userController = await UserController.getInstance();
     const user = await userController.subscribe(decoded.id,idPass);
-    console.log("user" + user);
     if(user) {
         res.status(200);
         res.json(user);
