@@ -4,7 +4,7 @@ import {authenticationAdmin, authenticationMaintenanceAgent} from "../middleware
 
 const spaceNotebookRoutes = express();
 
-spaceNotebookRoutes.get("/:id",authenticationMaintenanceAgent(),async function(req,res){
+spaceNotebookRoutes.get("/:id",authenticationMaintenanceAgent,async function(req,res){
     const id = req.params.id;
     if(!id)res.status(403).end();
     const spaceNoteBookController = await SpaceNoteBookController.getInstance();
